@@ -68,17 +68,20 @@ bool Raytracer::parseObjectNode(json const &node)
     {
 		string str = node["model"];
 		OBJLoader objloader(str);
+		objloader.unitize();
 		
         for(uint i = 0;i<objloader.numTriangles()*3;i+=3){
 			vector<Vertex> data = objloader.vertex_data();
 			Point p1(data.at(i).x,data.at(i).y,data.at(i).z);
-			p1 *=3;
+			p1 *=100;
+			p1.x += 200;p1.y += 200;
 			Point p2(data.at(i+1).x,data.at(i+1).y,data.at(i+1).z);
-			p2 *=3;
+			p2 *=100;
+			p2.x += 200;p2.y += 200;
 			Point p3(data.at(i+2).x,data.at(i+2).y,data.at(i+2).z);
-			p3 *=3;
+			p3 *=100;
+			p3.x += 200;p3.y += 200;
 			obj = ObjectPtr(new Triangle(p1,p2,p3));
-			cout << p1 << " " << p2 << " " << p3 << endl;
 			if (!obj) return false;
 			obj->material = parseMaterialNode(node["material"]);
 			scene.addObject(obj);

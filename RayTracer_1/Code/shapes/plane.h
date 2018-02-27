@@ -1,5 +1,5 @@
-#ifndef EXAMPLE_H_
-#define EXAMPLE_H_
+#ifndef PLANE_H_
+#define PLANE_H_
 
 #include "../object.h"
 

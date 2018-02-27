@@ -1,3 +1,3 @@
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/RayTracer_1/build/CMakeFiles/edit_cache.dir
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/RayTracer_1/build/CMakeFiles/rebuild_cache.dir
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/RayTracer_1/build/CMakeFiles/ray.dir
+/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_1/build/CMakeFiles/edit_cache.dir
+/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_1/build/CMakeFiles/rebuild_cache.dir
+/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_1/build/CMakeFiles/ray.dir
