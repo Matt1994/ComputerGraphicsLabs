@@ -14,7 +14,7 @@ Hit Triangle::intersect(Ray const &ray)
 	Vector tvec = ray.O - point1;
 	Vector qvec = tvec.cross(p1p2);
 	
-	Vector N = (p1p3).cross(p1p2).normalized();
+	Vector N = (p1p2).cross(p1p3).normalized();
 	
 	det = p1p2.dot(pvec);
 	

@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <cmath>
 
 using namespace std;
 
@@ -77,29 +78,38 @@ bool OBJLoader::hasTexCoords() const
 
 void OBJLoader::unitize()
 {
-    // TODO: implement this yourself!
+    float maxX = d_coordinates.at(0).x;
+    float minX = d_coordinates.at(0).x;
+    float maxY = d_coordinates.at(0).y;
+    float minY = d_coordinates.at(0).y;
+    float maxZ = d_coordinates.at(0).z;
+    float minZ = d_coordinates.at(0).z;
 
-    // This is a very handy function for importing models
-    // which you may reuse in other projects.
-    // You may have noticed you can use arbitrary sizes for your
-    // models. You may find that modelers do not always use the
-    // same size for models. Therefore it might be preferable to
-    // scale the object to fit inside the unit cube so you can easily
-    // set the right scale of your model in OpenGL. Aditionally,
-    // the model does not have to be centered around the origin
-    // (0, 0, 0) which may cause troubles when translating
-    // This function should fix that!
+    for(vec3 coord : d_coordinates){ // get min and max
+        maxX = (coord.x > maxX ? coord.x : maxX);
+        maxY = (coord.y > maxY ? coord.y : maxY);
+        maxZ = (coord.z > maxZ ? coord.z : maxZ);
 
-    // A common approach looks like this:
+        minX = (coord.x < minX ? coord.x : minX);
+        minY = (coord.y < minY ? coord.y : minY);
+        minZ = (coord.z < minZ ? coord.z : minZ);
+    }
 
-    // Determine min / max and offset in each dimension
-    // Determine by which factor to scale (largest difference
-    //  in min / max in a dimension (Important! Scale uniformaly in
-    //  all dimensions!)
-    // Loop over all coordinate data and scale the coordinates
-    //  and apply the translate/scaling
+    float centerX = (maxX + minX) / 2;
+    float centerY = (maxY + minY) / 2;
+    float centerZ = (maxZ + minZ) / 2;
 
-    cerr << "unitize() is not implemented!\n";
+    maxX -= centerX;
+    maxY -= centerY;
+    maxZ -= centerZ;
+
+    float maxim = fmax(fmax(maxX, maxY), maxZ);
+
+    for(uint i = 0;i<d_coordinates.size();i++){ // unitize
+        d_coordinates[i].x = (d_coordinates[i].x - centerX) / maxim;
+        d_coordinates[i].y = (d_coordinates[i].y - centerY) / maxim;
+        d_coordinates[i].z = (d_coordinates[i].z - centerZ) / maxim;
+    }
 }
 
 // --- Private -------------------------------------------------------

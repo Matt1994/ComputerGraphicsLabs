@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/matt/Documents/uni/computing_science/year3/2a/computergraphics/RayTracer_1
+CMAKE_SOURCE_DIR = /home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/matt/Documents/uni/computing_science/year3/2a/computergraphics/RayTracer_1/build
+CMAKE_BINARY_DIR = /home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_1/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/matt/Documents/uni/computing_science/year3/2a/computergraphics/RayTracer_1/build/CMakeFiles /home/matt/Documents/uni/computing_science/year3/2a/computergraphics/RayTracer_1/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_1/build/CMakeFiles /home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_1/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/matt/Documents/uni/computing_science/year3/2a/computergraphics/RayTracer_1/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_1/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -285,33 +285,6 @@ Code/scene.cpp.s:
 	$(MAKE) -f CMakeFiles/ray.dir/build.make CMakeFiles/ray.dir/Code/scene.cpp.s
 .PHONY : Code/scene.cpp.s
 
-Code/shapes/example.o: Code/shapes/example.cpp.o
-
-.PHONY : Code/shapes/example.o
-
-# target to build an object file
-Code/shapes/example.cpp.o:
-	$(MAKE) -f CMakeFiles/ray.dir/build.make CMakeFiles/ray.dir/Code/shapes/example.cpp.o
-.PHONY : Code/shapes/example.cpp.o
-
-Code/shapes/example.i: Code/shapes/example.cpp.i
-
-.PHONY : Code/shapes/example.i
-
-# target to preprocess a source file
-Code/shapes/example.cpp.i:
-	$(MAKE) -f CMakeFiles/ray.dir/build.make CMakeFiles/ray.dir/Code/shapes/example.cpp.i
-.PHONY : Code/shapes/example.cpp.i
-
-Code/shapes/example.s: Code/shapes/example.cpp.s
-
-.PHONY : Code/shapes/example.s
-
-# target to generate assembly for a file
-Code/shapes/example.cpp.s:
-	$(MAKE) -f CMakeFiles/ray.dir/build.make CMakeFiles/ray.dir/Code/shapes/example.cpp.s
-.PHONY : Code/shapes/example.cpp.s
-
 Code/shapes/plane.o: Code/shapes/plane.cpp.o
 
 .PHONY : Code/shapes/plane.o
@@ -474,9 +447,6 @@ help:
 	@echo "... Code/scene.o"
 	@echo "... Code/scene.i"
 	@echo "... Code/scene.s"
-	@echo "... Code/shapes/example.o"
-	@echo "... Code/shapes/example.i"
-	@echo "... Code/shapes/example.s"
 	@echo "... Code/shapes/plane.o"
 	@echo "... Code/shapes/plane.i"
 	@echo "... Code/shapes/plane.s"
