@@ -1,0 +1,31 @@
+Main Modifications:
+
+Aside from the initialisation of the OpenGL code, we also did the following:
+
+- 2 new structs have been added: Vertex and Shape
+    - Vertex contains the vertex data; location and colour
+    - Shape contains the data for each shape:
+        - The VAO and VBO
+        - The Model Transform matrix
+        - The Translate vector
+        - A malloc'd array of vertices
+        - The number of vertices
+        - A function to rotate the shape
+
+- Each shape is defined in the MainView constructor
+    - The number of vertices are assigned, the vertices array is allocated 
+      and and the translate vector is assigned
+    - Each vertex is added to the vertices array
+    - The Model matrix is translated by the translate vector
+
+- Rotation and Scaling have been implemented
+    - Rotation
+        - Each shape has it's model matrix set back to the identity
+        - The translate and previous scaling is set back to how it was
+        - The model matrix is then rotated by the amount stated by the dials
+    - Scaling
+        - To ensure the scaling works properly, we first calculate the relative
+          change in scale by dividing the new value by the old value. The old 
+          value is stored in MainView
+        - We then apply this to the model matrix
+        - We update the current scale value to the new value shown on the slider
