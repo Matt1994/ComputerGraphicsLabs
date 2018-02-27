@@ -1,0 +1,43 @@
+#version 330 core
+
+// Define constants
+#define M_PI 3.141593
+
+// Input locations
+layout (location = 0) in vec3 vertCoordinates_in;
+layout (location = 1) in vec3 vertNormal_in;
+
+// Uniforms
+uniform mat4 modelTransform;
+uniform mat4 perspectiveTransform;
+uniform mat3 normalTransform;
+uniform vec3 lightPosition;
+uniform vec3 lightColor;
+uniform vec3 materialIntensity;
+uniform vec3 materialColor;
+uniform int phongExponent;
+
+// Output
+out vec3 vertColor;
+
+void main()
+{
+    vec4 position = modelTransform * vec4(vertCoordinates_in, 1.0);
+
+    // gl_Position is the output (a vec4) of the vertex shader
+    gl_Position = perspectiveTransform * position;
+
+    vec3 eyePos = vec3(0.0,0.0,0.0);
+
+    vec3 N = normalize(normalTransform * vertNormal_in);
+    vec3 L = normalize(lightPosition - position.xyz);
+    vec3 V = normalize(eyePos - position.xyz);
+    vec3 R = normalize((2*dot(N,L)*N) - L);
+    vec3 H = normalize(L + V);
+
+    vec3 amb     = materialColor * materialIntensity.x;
+    vec3 diffuse = max(0.0, dot(L,N)) * materialColor * lightColor * materialIntensity.y;
+    vec3 spec    = pow(max(0.0,dot(N,H)),phongExponent) * lightColor * materialIntensity.z;
+
+    vertColor = amb + diffuse + spec;
+}
