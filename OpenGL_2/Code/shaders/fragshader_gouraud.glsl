@@ -4,7 +4,7 @@
 #define M_PI 3.141593
 
 // Input
-in vec3 vertColor;
+in vec3 vertIntensity;
 in vec2 texture_out;
 
 // Uniforms
@@ -16,5 +16,5 @@ out vec4 fColor;
 void main()
 {
     vec4 textureColor = texture2D(texSampler, texture_out);
-    fColor = vec4(vertColor,1) * textureColor;
+    fColor = vec4(vertIntensity,1) * textureColor;
 }

@@ -19,48 +19,45 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
     // initialise to starting value of the scale slider
     currentScale            = 100;
 
+    // Initialize starting shading mode
     currentShadingMode      = 0;
 
-    lightPosition     = QVector3D(10.0, 10.0, 0.0);
-    lightColor        = QVector3D(1.0, 1.0, 1.0);
-    materialColor     = QVector3D(1.0, 1.0, 1.0);
-    materialIntensity = QVector3D(0.5, 0.8, 0.5);
+    // Initialize shading variables
+    lightPosition     = QVector3D(0.0, 0.0, 10.0);
+    materialIntensity = QVector3D(0.2, 0.8, 0.5);
     phongExponent     = 16;
-
-    textureImage = imageToBytes(QImage(":/textures/cat_diff.png"));
-
-    createObjectFromModel(":/models/cat.obj", QVector3D(0, 0, -5));
 
     // Initialise the transform matrices
     perspectiveMatrix.perspective(60.0,16.0/9.0,1,100);
+
+    createObjectFromModel(":/models/cat.obj", QVector3D(0, 0, -5));
 }
 
 void MainView::createObjectFromModel(QString filename, QVector3D translateVector){
     Model objectModel(filename);
-
-    Shape model;
+    Shape object;
 
     // Set up model
-    model.numVertices      = objectModel.getVertices().count();
-    model.vertices         = (Vertex *)malloc(sizeof(Vertex)*model.numVertices);
-    model.translateVector  = translateVector;
+    object.numVertices      = objectModel.getVertices().count();
+    object.vertices         = (Vertex *)malloc(sizeof(Vertex)*object.numVertices);
+    object.translateVector  = translateVector;
 
-    // Retrieve model vertex data from model and insert into model struct, randomising colour
-    // Vertex locations are scaled down to be in same range as the cube and pyramid
-    for(int i = 0;i<model.numVertices;i++){
-        model.vertices[i].x        = objectModel.getVertices().at(i).x();
-        model.vertices[i].y        = objectModel.getVertices().at(i).y();
-        model.vertices[i].z        = objectModel.getVertices().at(i).z();
-        model.vertices[i].nx       = objectModel.getNormals().at(i).x();
-        model.vertices[i].ny       = objectModel.getNormals().at(i).y();
-        model.vertices[i].nz       = objectModel.getNormals().at(i).z();
-        model.vertices[i].tx       = objectModel.getTextureCoords().at(i).x();
-        model.vertices[i].ty       = objectModel.getTextureCoords().at(i).y();
+    // Retrieve model vertex data from model and insert into model struct
+    // Data has been unitized when the model was created
+    for(int i = 0;i<object.numVertices;i++){
+        object.vertices[i].x  = objectModel.getVertices().at(i).x();
+        object.vertices[i].y  = objectModel.getVertices().at(i).y();
+        object.vertices[i].z  = objectModel.getVertices().at(i).z();
+        object.vertices[i].nx = objectModel.getNormals().at(i).x();
+        object.vertices[i].ny = objectModel.getNormals().at(i).y();
+        object.vertices[i].nz = objectModel.getNormals().at(i).z();
+        object.vertices[i].tx = objectModel.getTextureCoords().at(i).x();
+        object.vertices[i].ty = objectModel.getTextureCoords().at(i).y();
     }
 
-    model.modelMatrix.translate(model.translateVector);
+    object.modelMatrix.translate(object.translateVector);
 
-    shapes.append(model);
+    shapes.append(object);
 }
 
 /**
@@ -81,6 +78,8 @@ MainView::~MainView() {
         glDeleteBuffers(1, &shapes.data()[i].vao);
         free(shapes.data()[i].vertices);
     }
+
+    glDeleteTextures(1, &texturePointer);
 }
 
 // --- OpenGL initialization
@@ -122,12 +121,9 @@ void MainView::initializeGL() {
     glClearColor(0.2f, 0.5f, 0.7f, 0.0f);
 
     glGenTextures(1, &texturePointer);
-    glBindTexture(GL_TEXTURE_2D, texturePointer);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 512, 1024, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureImage.data());
-    glGenerateMipmap(GL_TEXTURE_2D);
+    loadTexture(":/textures/cat_diff.png", texturePointer);
 
-    createShaderProgram();
+    createShaderPrograms();
 
     // Initialise cube buffers
     for(int i=0; i<shapes.length(); i++) {
@@ -140,6 +136,15 @@ void MainView::initializeGL() {
     }
 }
 
+void MainView::loadTexture(QString file, GLuint texturePtr)
+{
+    textureImage = imageToBytes(QImage(file));
+    glBindTexture(GL_TEXTURE_2D, texturePtr);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 512, 1024, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureImage.data());
+    glGenerateMipmap(GL_TEXTURE_2D);
+}
+
 void MainView::setVertexAttribs(){
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
@@ -149,55 +154,29 @@ void MainView::setVertexAttribs(){
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(6*sizeof(float)));
 }
 
-void MainView::createShaderProgram()
+void MainView::createShaderPrograms()
 {
-    // Create shader program
-    shaderProgramPhong.addShaderFromSourceFile(QOpenGLShader::Vertex,
-                                           ":/shaders/vertshader_phong.glsl");
-    shaderProgramPhong.addShaderFromSourceFile(QOpenGLShader::Fragment,
-                                           ":/shaders/fragshader_phong.glsl");
+    addShader(MainView::NORMAL, ":/shaders/vertshader_normal.glsl", ":/shaders/fragshader_normal.glsl");
+    addShader(MainView::PHONG, ":/shaders/vertshader_phong.glsl", ":/shaders/fragshader_phong.glsl");
+    addShader(MainView::GOURAUD, ":/shaders/vertshader_gouraud.glsl", ":/shaders/fragshader_gouraud.glsl");
+}
 
-    shaderProgramPhong.link();
+void MainView::addShader(GLuint shader, QString vertexshader, QString fragshader)
+{
+    shaderPrograms[shader].addShaderFromSourceFile(QOpenGLShader::Vertex, vertexshader);
+    shaderPrograms[shader].addShaderFromSourceFile(QOpenGLShader::Fragment, fragshader);
 
-    modelTransformLocation[MainView::PHONG]       = shaderProgramPhong.uniformLocation("modelTransform");
-    perspectiveTransformLocation[MainView::PHONG] = shaderProgramPhong.uniformLocation("perspectiveTransform");
-    normalTransformLocation[MainView::PHONG]      = shaderProgramPhong.uniformLocation("normalTransform");
-    lightPositionLocation[MainView::PHONG]        = shaderProgramPhong.uniformLocation("lightPosition");
-    lightColorLocation[MainView::PHONG]           = shaderProgramPhong.uniformLocation("lightColor");
-    materialIntensityLocation[MainView::PHONG]    = shaderProgramPhong.uniformLocation("materialIntensity");
-    materialColorLocation[MainView::PHONG]        = shaderProgramPhong.uniformLocation("materialColor");
-    phongExponentLocation[MainView::PHONG]        = shaderProgramPhong.uniformLocation("phongExponent");
-    texSamplerLocation[MainView::PHONG]           = shaderProgramPhong.uniformLocation("texSampler");
+    shaderPrograms[shader].link();
 
-    // Create shader program
-    shaderProgramNormal.addShaderFromSourceFile(QOpenGLShader::Vertex,
-                                           ":/shaders/vertshader_normal.glsl");
-    shaderProgramNormal.addShaderFromSourceFile(QOpenGLShader::Fragment,
-                                           ":/shaders/fragshader_normal.glsl");
-
-    shaderProgramNormal.link();
-
-    modelTransformLocation[MainView::NORMAL]       = shaderProgramNormal.uniformLocation("modelTransform");
-    perspectiveTransformLocation[MainView::NORMAL] = shaderProgramNormal.uniformLocation("perspectiveTransform");
-    normalTransformLocation[MainView::NORMAL]      = shaderProgramNormal.uniformLocation("normalTransform");
-
-    // Create shader program
-    shaderProgramGouraud.addShaderFromSourceFile(QOpenGLShader::Vertex,
-                                           ":/shaders/vertshader_gouraud.glsl");
-    shaderProgramGouraud.addShaderFromSourceFile(QOpenGLShader::Fragment,
-                                           ":/shaders/fragshader_gouraud.glsl");
-
-    shaderProgramGouraud.link();
-
-    modelTransformLocation[MainView::GOURAUD]       = shaderProgramGouraud.uniformLocation("modelTransform");
-    perspectiveTransformLocation[MainView::GOURAUD] = shaderProgramGouraud.uniformLocation("perspectiveTransform");
-    normalTransformLocation[MainView::GOURAUD]      = shaderProgramGouraud.uniformLocation("normalTransform");
-    lightPositionLocation[MainView::GOURAUD]        = shaderProgramGouraud.uniformLocation("lightPosition");
-    lightColorLocation[MainView::GOURAUD]           = shaderProgramGouraud.uniformLocation("lightColor");
-    materialIntensityLocation[MainView::GOURAUD]    = shaderProgramGouraud.uniformLocation("materialIntensity");
-    materialColorLocation[MainView::GOURAUD]        = shaderProgramGouraud.uniformLocation("materialColor");
-    phongExponentLocation[MainView::GOURAUD]        = shaderProgramGouraud.uniformLocation("phongExponent");
-    texSamplerLocation[MainView::GOURAUD]           = shaderProgramGouraud.uniformLocation("texSampler");
+    modelTransformLocation[shader]       = shaderPrograms[shader].uniformLocation("modelTransform");
+    perspectiveTransformLocation[shader] = shaderPrograms[shader].uniformLocation("perspectiveTransform");
+    normalTransformLocation[shader]      = shaderPrograms[shader].uniformLocation("normalTransform");
+    if(shader != MainView::NORMAL){
+        lightPositionLocation[shader]        = shaderPrograms[shader].uniformLocation("lightPosition");
+        materialIntensityLocation[shader]    = shaderPrograms[shader].uniformLocation("materialIntensity");
+        phongExponentLocation[shader]        = shaderPrograms[shader].uniformLocation("phongExponent");
+        texSamplerLocation[shader]           = shaderPrograms[shader].uniformLocation("texSampler");
+    }
 }
 
 // --- OpenGL drawing
@@ -214,17 +193,7 @@ void MainView::paintGL() {
     // Clear the screen before rendering
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    switch(currentShadingMode){
-        case MainView::PHONG:
-            shaderProgramPhong.bind();
-            break;
-        case MainView::NORMAL:
-            shaderProgramNormal.bind();
-            break;
-        case MainView::GOURAUD:
-            shaderProgramGouraud.bind();
-        break;
-    }
+    shaderPrograms[currentShadingMode].bind();
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texturePointer);
@@ -240,26 +209,14 @@ void MainView::paintGL() {
         glUniformMatrix3fv(normalTransformLocation[currentShadingMode], 1, GL_FALSE, normalMatrix.data());
         if(currentShadingMode != MainView::NORMAL){
             glUniform3f(lightPositionLocation[currentShadingMode], lightPosition[0], lightPosition[1], lightPosition[2]);
-            glUniform3f(lightColorLocation[currentShadingMode], lightColor[0], lightColor[1], lightColor[2]);
             glUniform3f(materialIntensityLocation[currentShadingMode], materialIntensity[0], materialIntensity[1], materialIntensity[2]);
-            glUniform3f(materialColorLocation[currentShadingMode], materialColor[0],materialColor[1], materialColor[2]);
             glUniform1i(phongExponentLocation[currentShadingMode], phongExponent);
         }
         glBindVertexArray(shapes.data()[i].vao);
         glDrawArrays(GL_TRIANGLES, 0, shapes.data()[i].numVertices);
     }
 
-    switch(currentShadingMode){
-        case MainView::PHONG:
-            shaderProgramPhong.release();
-            break;
-        case MainView::NORMAL:
-            shaderProgramNormal.release();
-            break;
-        case MainView::GOURAUD:
-            shaderProgramGouraud.release();
-        break;
-    }
+    shaderPrograms[currentShadingMode].release();
 }
 
 /**
@@ -314,9 +271,11 @@ void MainView::setShadingMode(ShadingMode shading)
     update();
 }
 
-void MainView::setMaterialColor(float color1, float color2, float color3)
+// Update uniforms
+
+void MainView::setMaterialIntensity(float intensity1, float intensity2, float intensity3)
 {
-    materialColor = QVector3D(color1,color2,color3);
+    materialIntensity = QVector3D(intensity1,intensity2,intensity3);
     update();
 }
 

@@ -251,18 +251,18 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
-           <layout class="QVBoxLayout" name="materialColor">
+           <layout class="QVBoxLayout" name="materialIntensity">
             <item>
              <widget class="QLabel" name="label">
               <property name="text">
-               <string>Material Color</string>
+               <string>Material Intensity</string>
               </property>
              </widget>
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,0">
               <item>
-               <widget class="QDoubleSpinBox" name="materialColor1">
+               <widget class="QDoubleSpinBox" name="materialIntensity1">
                 <property name="decimals">
                  <number>1</number>
                 </property>
@@ -271,11 +271,14 @@
                 </property>
                 <property name="singleStep">
                  <double>0.100000000000000</double>
+                </property>
+                <property name="value">
+                 <double>0.200000000000000</double>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QDoubleSpinBox" name="materialColor2">
+               <widget class="QDoubleSpinBox" name="materialIntensity2">
                 <property name="decimals">
                  <number>1</number>
                 </property>
@@ -284,11 +287,14 @@
                 </property>
                 <property name="singleStep">
                  <double>0.100000000000000</double>
+                </property>
+                <property name="value">
+                 <double>0.800000000000000</double>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QDoubleSpinBox" name="materialColor3">
+               <widget class="QDoubleSpinBox" name="materialIntensity3">
                 <property name="decimals">
                  <number>1</number>
                 </property>
@@ -297,6 +303,9 @@
                 </property>
                 <property name="singleStep">
                  <double>0.100000000000000</double>
+                </property>
+                <property name="value">
+                 <double>0.500000000000000</double>
                 </property>
                </widget>
               </item>
@@ -327,7 +336,7 @@
                  <double>20.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>10.000000000000000</double>
+                 <double>0.000000000000000</double>
                 </property>
                </widget>
               </item>
@@ -343,7 +352,7 @@
                  <double>20.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>10.000000000000000</double>
+                 <double>0.000000000000000</double>
                 </property>
                </widget>
               </item>
@@ -359,7 +368,7 @@
                  <double>20.000000000000000</double>
                 </property>
                 <property name="value">
-                 <double>0.000000000000000</double>
+                 <double>10.000000000000000</double>
                 </property>
                </widget>
               </item>
