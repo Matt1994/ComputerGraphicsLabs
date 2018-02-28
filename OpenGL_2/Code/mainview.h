@@ -42,14 +42,15 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
 
     QMatrix4x4 perspectiveMatrix;
 
-    GLint modelTransformLocation;
-    GLint perspectiveTransformLocation;
-    GLint normalTransformLocation;
-    GLint lightPositionLocation;
-    GLint lightColorLocation;
-    GLint materialIntensityLocation;
-    GLint materialColorLocation;
-    GLint phongExponentLocation;
+    GLint modelTransformLocation[3];
+    GLint perspectiveTransformLocation[3];
+    GLint normalTransformLocation[3];
+    GLint lightPositionLocation[3];
+    GLint lightColorLocation[3];
+    GLint materialIntensityLocation[3];
+    GLint materialColorLocation[3];
+    GLint phongExponentLocation[3];
+    GLint texSamplerLocation[3];
 
     QVector<quint8> textureImage;
     GLuint texturePointer;

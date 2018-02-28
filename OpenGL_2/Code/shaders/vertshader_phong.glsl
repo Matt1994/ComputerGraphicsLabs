@@ -12,10 +12,12 @@ layout (location = 2) in vec2 vertTexture_in;
 uniform mat4 modelTransform;
 uniform mat4 perspectiveTransform;
 uniform mat3 normalTransform;
+uniform vec3 lightPosition;
 
 // Outputs
 out vec3 vertNormal;
 out vec3 position_out;
+out vec3 lightPosition_transform;
 out vec2 texture_out;
 
 
@@ -29,4 +31,5 @@ void main()
     vertNormal = normalTransform * vertNormal_in;
     position_out = position.xyz;
     texture_out = vertTexture_in;
+    lightPosition_transform = vec4(modelTransform * vec4(lightPosition,1)).xyz;
 }

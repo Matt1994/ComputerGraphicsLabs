@@ -5,12 +5,16 @@
 
 // Input
 in vec3 vertColor;
-in vec3 texture_out;
+in vec2 texture_out;
+
+// Uniforms
+uniform sampler2D texSampler;
 
 // Output
 out vec4 fColor;
 
 void main()
 {
-    fColor = vec4(vertColor, 1.0);
+    vec4 textureColor = texture2D(texSampler, texture_out);
+    fColor = vec4(vertColor,1) * textureColor;
 }
