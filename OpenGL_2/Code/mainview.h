@@ -72,6 +72,7 @@ public:
     void setMaterialColor(float color1, float color2, float color3);
     void setLightPosition(double x, double y, double z);
     void setPhongExponent(int i);
+    QVector<quint8> imageToBytes(QImage image);
 
 protected:
     void initializeGL();

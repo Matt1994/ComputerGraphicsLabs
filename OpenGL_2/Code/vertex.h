@@ -10,7 +10,6 @@ struct Vertex {
     float nz;
     float tx;
     float ty;
-    float tz;
 };
 
 #endif // VERTEX

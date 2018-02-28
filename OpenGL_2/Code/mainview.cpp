@@ -4,8 +4,6 @@
 
 #include <QDateTime>
 
-QVector<quint8> MainView::imageToBytes(QImame image);
-
 /**
  * @brief MainView::MainView
  *
@@ -37,7 +35,7 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
     perspectiveMatrix.perspective(60.0,16.0/9.0,1,100);
 }
 
-void MainView::createCube(QVector3D translateVector){
+/*void MainView::createCube(QVector3D translateVector){
     Shape cube;
 
     // Set up cube
@@ -144,7 +142,7 @@ void MainView::createPyramid(QVector3D translateVector){
     pyramid.modelMatrix.translate(pyramid.translateVector);
 
     shapes.append(pyramid);
-}
+}*/
 
 void MainView::createObjectFromModel(QString filename, QVector3D translateVector){
     Model objectModel(filename);
