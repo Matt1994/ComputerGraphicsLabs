@@ -24,11 +24,11 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
 
     QOpenGLShaderProgram shaderPrograms[3];
 
-    QVector3D lightPosition;
-    QVector3D materialIntensity;
-    int phongExponent;
+    QVector3D lightPosition = QVector3D(0.0, 0.0, 10.0);
+    QVector3D materialIntensity = QVector3D(0.2, 0.8, 0.5);
+    int phongExponent = 16;
 
-    GLuint currentShadingMode;
+    GLuint currentShadingMode = 0;
 
     QVector<Shape> shapes;
 
@@ -45,7 +45,7 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     QVector<quint8> textureImage;
     GLuint texturePointer;
 
-    float currentScale;
+    float currentScale = 100;
 
 public:
     enum ShadingMode : GLuint
@@ -87,9 +87,8 @@ private slots:
 private:
     void createShaderPrograms();
     void addShader(GLuint shader, QString vertexshader, QString fragshader);
-    void setVertexAttribs();
     void loadTexture(QString file, GLuint texturePtr);
-    void createObjectFromModel(QString filename, QVector3D translateVector);
+    void loadModel(QString filename, QVector3D translateVector);
 };
 
 #endif // MAINVIEW_H

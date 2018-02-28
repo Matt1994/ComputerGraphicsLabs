@@ -16,24 +16,9 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
 
     connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
 
-    // initialise to starting value of the scale slider
-    currentScale            = 100;
-
-    // Initialize starting shading mode
-    currentShadingMode      = 0;
-
-    // Initialize shading variables
-    lightPosition     = QVector3D(0.0, 0.0, 10.0);
-    materialIntensity = QVector3D(0.2, 0.8, 0.5);
-    phongExponent     = 16;
-
-    // Initialise the transform matrices
-    perspectiveMatrix.perspective(60.0,16.0/9.0,1,100);
-
-    createObjectFromModel(":/models/cat.obj", QVector3D(0, 0, -5));
 }
 
-void MainView::createObjectFromModel(QString filename, QVector3D translateVector){
+void MainView::loadModel(QString filename, QVector3D translateVector){
     Model objectModel(filename);
     Shape object;
 
@@ -120,6 +105,10 @@ void MainView::initializeGL() {
     // Set the color of the screen to be black on clear (new frame)
     glClearColor(0.2f, 0.5f, 0.7f, 0.0f);
 
+    loadModel(":/models/cat.obj", QVector3D(0, 0, -5));
+
+    perspectiveMatrix.perspective(60.0,width()/height(),1,100);
+
     glGenTextures(1, &texturePointer);
     loadTexture(":/textures/cat_diff.png", texturePointer);
 
@@ -132,7 +121,12 @@ void MainView::initializeGL() {
         glBindVertexArray(shapes.data()[i].vao);
         glBindBuffer(GL_ARRAY_BUFFER, shapes.data()[i].vbo);
         glBufferData(GL_ARRAY_BUFFER, shapes.data()[i].numVertices*sizeof(Vertex), shapes.data()[i].vertices, GL_STATIC_DRAW);
-        setVertexAttribs();
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(3*sizeof(float)));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(6*sizeof(float)));
     }
 }
 
@@ -143,15 +137,6 @@ void MainView::loadTexture(QString file, GLuint texturePtr)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 512, 1024, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureImage.data());
     glGenerateMipmap(GL_TEXTURE_2D);
-}
-
-void MainView::setVertexAttribs(){
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(3*sizeof(float)));
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(6*sizeof(float)));
 }
 
 void MainView::createShaderPrograms()
