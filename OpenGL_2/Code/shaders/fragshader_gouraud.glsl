@@ -5,6 +5,7 @@
 
 // Input
 in vec3 vertColor;
+in vec3 texture_out;
 
 // Output
 out vec4 fColor;

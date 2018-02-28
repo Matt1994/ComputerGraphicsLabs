@@ -5,6 +5,7 @@
 
 // Inputs
 in vec3 vertNormal;
+in vec2 texture_out;
 in vec3 position_out;
 
 // Uniforms
@@ -13,6 +14,7 @@ uniform vec3 lightColor;
 uniform vec3 materialIntensity;
 uniform vec3 materialColor;
 uniform int phongExponent;
+uniform vec4 textureColor;
 
 // Output
 out vec4 fColor;

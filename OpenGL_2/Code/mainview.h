@@ -51,6 +51,9 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     GLint materialColorLocation;
     GLint phongExponentLocation;
 
+    QVector<quint8> textureImage;
+    GLuint texturePointer;
+
     float currentScale;
 
 public:

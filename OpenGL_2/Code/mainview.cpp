@@ -4,6 +4,8 @@
 
 #include <QDateTime>
 
+QVector<quint8> MainView::imageToBytes(QImame image);
+
 /**
  * @brief MainView::MainView
  *
@@ -27,7 +29,9 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
     materialIntensity = QVector3D(0.5, 0.8, 0.5);
     phongExponent     = 16;
 
-    createObjectFromModel(":/models/sphere.obj", QVector3D(0, 0, -5));
+    textureImage = imageToBytes(QImage(":/textures/cat_spec.png"));
+
+    createObjectFromModel(":/models/cat.obj", QVector3D(0, 0, -5));
 
     // Initialise the transform matrices
     perspectiveMatrix.perspective(60.0,16.0/9.0,1,100);
@@ -161,6 +165,8 @@ void MainView::createObjectFromModel(QString filename, QVector3D translateVector
         model.vertices[i].nx       = objectModel.getNormals().at(i).x();
         model.vertices[i].ny       = objectModel.getNormals().at(i).y();
         model.vertices[i].nz       = objectModel.getNormals().at(i).z();
+        model.vertices[i].tx       = objectModel.getTextureCoords().at(i).x();
+        model.vertices[i].ty       = objectModel.getTextureCoords().at(i).y();
     }
 
     model.modelMatrix.translate(model.translateVector);
@@ -226,6 +232,10 @@ void MainView::initializeGL() {
     // Set the color of the screen to be black on clear (new frame)
     glClearColor(0.2f, 0.5f, 0.7f, 0.0f);
 
+    glGenTextures(1, &texturePointer);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 512, 1024, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureImage.data());
+
     createShaderProgram();
 
     // Initialise cube buffers
@@ -242,8 +252,10 @@ void MainView::initializeGL() {
 void MainView::setVertexAttribs(){
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(3*sizeof(float)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(6*sizeof(float)));
 }
 
 void MainView::createShaderProgram()
@@ -287,31 +299,31 @@ void MainView::paintGL() {
 
     switch(currentShadingMode){
         case MainView::PHONG:
-            modelTransformLocation = shaderProgramPhong.uniformLocation("modelTransform");
+            modelTransformLocation       = shaderProgramPhong.uniformLocation("modelTransform");
             perspectiveTransformLocation = shaderProgramPhong.uniformLocation("perspectiveTransform");
-            normalTransformLocation = shaderProgramPhong.uniformLocation("normalTransform");
-            lightPositionLocation = shaderProgramGouraud.uniformLocation("lightPosition");
-            lightColorLocation = shaderProgramGouraud.uniformLocation("lightColor");
-            materialIntensityLocation = shaderProgramGouraud.uniformLocation("materialIntensity");
-            materialColorLocation = shaderProgramGouraud.uniformLocation("materialColor");
-            phongExponentLocation = shaderProgramPhong.uniformLocation("phongExponent");
+            normalTransformLocation      = shaderProgramPhong.uniformLocation("normalTransform");
+            lightPositionLocation        = shaderProgramPhong.uniformLocation("lightPosition");
+            lightColorLocation           = shaderProgramPhong.uniformLocation("lightColor");
+            materialIntensityLocation    = shaderProgramPhong.uniformLocation("materialIntensity");
+            materialColorLocation        = shaderProgramPhong.uniformLocation("materialColor");
+            phongExponentLocation        = shaderProgramPhong.uniformLocation("phongExponent");
             shaderProgramPhong.bind();
             break;
         case MainView::NORMAL:
-            modelTransformLocation = shaderProgramNormal.uniformLocation("modelTransform");
+            modelTransformLocation       = shaderProgramNormal.uniformLocation("modelTransform");
             perspectiveTransformLocation = shaderProgramNormal.uniformLocation("perspectiveTransform");
-            normalTransformLocation = shaderProgramNormal.uniformLocation("normalTransform");
+            normalTransformLocation      = shaderProgramNormal.uniformLocation("normalTransform");
             shaderProgramNormal.bind();
             break;
         case MainView::GOURAUD:
-            modelTransformLocation = shaderProgramGouraud.uniformLocation("modelTransform");
+            modelTransformLocation       = shaderProgramGouraud.uniformLocation("modelTransform");
             perspectiveTransformLocation = shaderProgramGouraud.uniformLocation("perspectiveTransform");
-            normalTransformLocation = shaderProgramGouraud.uniformLocation("normalTransform");
-            lightPositionLocation = shaderProgramGouraud.uniformLocation("lightPosition");
-            lightColorLocation = shaderProgramGouraud.uniformLocation("lightColor");
-            materialIntensityLocation = shaderProgramGouraud.uniformLocation("materialIntensity");
-            materialColorLocation = shaderProgramGouraud.uniformLocation("materialColor");
-            phongExponentLocation = shaderProgramGouraud.uniformLocation("phongExponent");
+            normalTransformLocation      = shaderProgramGouraud.uniformLocation("normalTransform");
+            lightPositionLocation        = shaderProgramGouraud.uniformLocation("lightPosition");
+            lightColorLocation           = shaderProgramGouraud.uniformLocation("lightColor");
+            materialIntensityLocation    = shaderProgramGouraud.uniformLocation("materialIntensity");
+            materialColorLocation        = shaderProgramGouraud.uniformLocation("materialColor");
+            phongExponentLocation        = shaderProgramGouraud.uniformLocation("phongExponent");
             shaderProgramGouraud.bind();
         break;
     }
@@ -390,7 +402,7 @@ void MainView::setScale(int scale)
     }
 
     // Update the current scale
-    currentScale        = scale;
+    currentScale = scale;
 
     update();
 }

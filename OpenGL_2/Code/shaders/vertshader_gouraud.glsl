@@ -6,6 +6,7 @@
 // Input locations
 layout (location = 0) in vec3 vertCoordinates_in;
 layout (location = 1) in vec3 vertNormal_in;
+layout (location = 2) in vec2 vertTexture_in;
 
 // Uniforms
 uniform mat4 modelTransform;
@@ -19,6 +20,7 @@ uniform int phongExponent;
 
 // Output
 out vec3 vertColor;
+out vec2 texture_out;
 
 void main()
 {
@@ -40,4 +42,5 @@ void main()
     vec3 spec    = pow(max(0.0,dot(N,H)),phongExponent) * lightColor * materialIntensity.z;
 
     vertColor = amb + diffuse + spec;
+    texture_out = vertTexture_in;
 }
