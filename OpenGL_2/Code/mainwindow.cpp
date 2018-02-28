@@ -87,19 +87,19 @@ void MainWindow::on_GouraudButton_toggled(bool checked)
     }
 }
 
-void MainWindow::on_materialColor1_valueChanged(double d)
+void MainWindow::on_materialIntensity1_valueChanged(double d)
 {
-    ui->mainView->setMaterialColor(d, ui->materialColor2->value(), ui->materialColor3->value());
+    ui->mainView->setMaterialIntensity(d, ui->materialIntensity2->value(), ui->materialIntensity3->value());
 }
 
-void MainWindow::on_materialColor2_valueChanged(double d)
+void MainWindow::on_materialIntensity2_valueChanged(double d)
 {
-    ui->mainView->setMaterialColor(ui->materialColor1->value(), d, ui->materialColor3->value());
+    ui->mainView->setMaterialIntensity(ui->materialIntensity1->value(), d, ui->materialIntensity3->value());
 }
 
-void MainWindow::on_materialColor3_valueChanged(double d)
+void MainWindow::on_materialIntensity3_valueChanged(double d)
 {
-    ui->mainView->setMaterialColor(ui->materialColor1->value(), ui->materialColor2->value(), d);
+    ui->mainView->setMaterialIntensity(ui->materialIntensity1->value(), ui->materialIntensity2->value(), d);
 }
 
 void MainWindow::on_lp1_valueChanged(double d)

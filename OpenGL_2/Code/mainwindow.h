@@ -30,9 +30,9 @@ private slots:
     void on_NormalButton_toggled(bool checked);
     void on_GouraudButton_toggled(bool checked);
 
-    void on_materialColor1_valueChanged(double d);
-    void on_materialColor2_valueChanged(double d);
-    void on_materialColor3_valueChanged(double d);
+    void on_materialIntensity1_valueChanged(double d);
+    void on_materialIntensity2_valueChanged(double d);
+    void on_materialIntensity3_valueChanged(double d);
 
     void on_lp1_valueChanged(double d);
     void on_lp2_valueChanged(double d);

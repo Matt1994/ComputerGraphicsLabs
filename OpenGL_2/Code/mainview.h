@@ -22,34 +22,28 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     QOpenGLDebugLogger *debugLogger;
     QTimer timer; // timer used for animation
 
-    QOpenGLShaderProgram shaderProgramNormal;
-    QOpenGLShaderProgram shaderProgramPhong;
-    QOpenGLShaderProgram shaderProgramGouraud;
+    QOpenGLShaderProgram shaderPrograms[3];
 
     QVector3D lightPosition;
-    QVector3D lightColor;
-    QVector3D materialColor;
     QVector3D materialIntensity;
     int phongExponent;
 
     GLuint currentShadingMode;
 
-//    Shape cube;
-//    Shape pyramid;
-//    Shape model;
-
     QVector<Shape> shapes;
 
     QMatrix4x4 perspectiveMatrix;
 
-    GLint modelTransformLocation;
-    GLint perspectiveTransformLocation;
-    GLint normalTransformLocation;
-    GLint lightPositionLocation;
-    GLint lightColorLocation;
-    GLint materialIntensityLocation;
-    GLint materialColorLocation;
-    GLint phongExponentLocation;
+    GLint modelTransformLocation[3];
+    GLint perspectiveTransformLocation[3];
+    GLint normalTransformLocation[3];
+    GLint lightPositionLocation[3];
+    GLint materialIntensityLocation[3];
+    GLint phongExponentLocation[3];
+    GLint texSamplerLocation[3];
+
+    QVector<quint8> textureImage;
+    GLuint texturePointer;
 
     float currentScale;
 
@@ -66,9 +60,10 @@ public:
     void setRotation(int rotateX, int rotateY, int rotateZ);
     void setScale(int scale);
     void setShadingMode(ShadingMode shading);
-    void setMaterialColor(float color1, float color2, float color3);
+    void setMaterialIntensity(float intensity1, float intensity2, float intensity3);
     void setLightPosition(double x, double y, double z);
     void setPhongExponent(int i);
+    QVector<quint8> imageToBytes(QImage image);
 
 protected:
     void initializeGL();
@@ -90,10 +85,10 @@ private slots:
     void onMessageLogged( QOpenGLDebugMessage Message );
 
 private:
-    void createShaderProgram();
+    void createShaderPrograms();
+    void addShader(GLuint shader, QString vertexshader, QString fragshader);
     void setVertexAttribs();
-    void createCube(QVector3D translateVector);
-    void createPyramid(QVector3D translateVector);
+    void loadTexture(QString file, GLuint texturePtr);
     void createObjectFromModel(QString filename, QVector3D translateVector);
 };
 

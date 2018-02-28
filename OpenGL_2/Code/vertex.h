@@ -8,6 +8,8 @@ struct Vertex {
     float nx;
     float ny;
     float nz;
+    float tx;
+    float ty;
 };
 
 #endif // VERTEX
