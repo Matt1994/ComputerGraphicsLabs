@@ -110,7 +110,7 @@ void MainView::initializeGL() {
     perspectiveMatrix.perspective(60.0,width()/height(),1,100);
 
     glGenTextures(1, &texturePointer);
-    loadTexture(":/textures/cat_diff.png", texturePointer);
+    loadTexture(":/textures/cat_diffjpg", texturePointer);
 
     createShaderPrograms();
 
