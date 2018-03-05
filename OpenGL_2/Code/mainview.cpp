@@ -93,6 +93,8 @@ void MainView::initializeGL() {
     glVersion = reinterpret_cast<const char*>(glGetString(GL_VERSION));
     qDebug() << ":: Using OpenGL" << qPrintable(glVersion);
 
+
+
     // Enable depth buffer
     glEnable(GL_DEPTH_TEST);
 
@@ -110,7 +112,7 @@ void MainView::initializeGL() {
     perspectiveMatrix.perspective(60.0,width()/height(),1,100);
 
     glGenTextures(1, &texturePointer);
-    loadTexture(":/textures/cat_diffjpg", texturePointer);
+    loadTexture(":/textures/cat_diff.png", texturePointer);
 
     createShaderPrograms();
 
@@ -134,7 +136,7 @@ void MainView::loadTexture(QString file, GLuint texturePtr)
 {
     textureImage = imageToBytes(QImage(file));
     glBindTexture(GL_TEXTURE_2D, texturePtr);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 512, 1024, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureImage.data());
     glGenerateMipmap(GL_TEXTURE_2D);
 }
@@ -193,8 +195,8 @@ void MainView::paintGL() {
         glUniformMatrix4fv(modelTransformLocation[currentShadingMode], 1, GL_FALSE, shapes.data()[i].modelMatrix.data());
         glUniformMatrix3fv(normalTransformLocation[currentShadingMode], 1, GL_FALSE, normalMatrix.data());
         if(currentShadingMode != MainView::NORMAL){
-            glUniform3f(lightPositionLocation[currentShadingMode], lightPosition[0], lightPosition[1], lightPosition[2]);
-            glUniform3f(materialIntensityLocation[currentShadingMode], materialIntensity[0], materialIntensity[1], materialIntensity[2]);
+            glUniform3fv(lightPositionLocation[currentShadingMode], 1, lightPosition);
+            glUniform3fv(materialIntensityLocation[currentShadingMode], 1, materialIntensity);
             glUniform1i(phongExponentLocation[currentShadingMode], phongExponent);
         }
         glBindVertexArray(shapes.data()[i].vao);
@@ -260,13 +262,17 @@ void MainView::setShadingMode(ShadingMode shading)
 
 void MainView::setMaterialIntensity(float intensity1, float intensity2, float intensity3)
 {
-    materialIntensity = QVector3D(intensity1,intensity2,intensity3);
+    materialIntensity[0] = intensity1;
+    materialIntensity[1] = intensity2;
+    materialIntensity[2] = intensity3;
     update();
 }
 
 void MainView::setLightPosition(double x, double y, double z)
 {
-    lightPosition = QVector3D(x,y,z);
+    lightPosition[0] = x;
+    lightPosition[1] = y;
+    lightPosition[2] = z;
     update();
 }
 

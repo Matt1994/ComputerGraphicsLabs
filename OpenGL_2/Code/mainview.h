@@ -24,8 +24,8 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
 
     QOpenGLShaderProgram shaderPrograms[3];
 
-    QVector3D lightPosition = QVector3D(0.0, 0.0, 10.0);
-    QVector3D materialIntensity = QVector3D(0.2, 0.8, 0.5);
+    GLfloat lightPosition[3] = {0.0, 0.0, 10.0};
+    GLfloat materialIntensity[3] = {0.2, 0.8, 0.5};
     int phongExponent = 16;
 
     GLuint currentShadingMode = 0;

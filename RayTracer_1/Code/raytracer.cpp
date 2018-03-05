@@ -67,20 +67,17 @@ bool Raytracer::parseObjectNode(json const &node)
     else if (node["type"] == "mesh")
     {
 		string str = node["model"];
+		Point pos(node["position"]);
+		int scale = node["scale"];
 		OBJLoader objloader(str);
 		objloader.unitize();
 		
+		vector<Vertex> data = objloader.vertex_data();
+		
         for(uint i = 0;i<objloader.numTriangles()*3;i+=3){
-			vector<Vertex> data = objloader.vertex_data();
-			Point p1(data.at(i).x,data.at(i).y,data.at(i).z);
-			p1 *=100;
-			p1.x += 200;p1.y += 200;
-			Point p2(data.at(i+1).x,data.at(i+1).y,data.at(i+1).z);
-			p2 *=100;
-			p2.x += 200;p2.y += 200;
-			Point p3(data.at(i+2).x,data.at(i+2).y,data.at(i+2).z);
-			p3 *=100;
-			p3.x += 200;p3.y += 200;
+			Point p1((data.at(i).x * scale) + pos.x, (data.at(i).y * scale) + pos.y, (data.at(i).z * scale) + pos.z);
+			Point p2((data.at(i+1).x * scale) + pos.x, (data.at(i+1).y * scale) + pos.y, (data.at(i+1).z * scale) + pos.z);
+			Point p3((data.at(i+2).x * scale) + pos.x, (data.at(i+2).y * scale) + pos.y, (data.at(i+2).z * scale) + pos.z);
 			obj = ObjectPtr(new Triangle(p1,p2,p3));
 			if (!obj) return false;
 			obj->material = parseMaterialNode(node["material"]);
@@ -139,7 +136,8 @@ try
     Point eye(jsonscene["Eye"]);
     scene.setEye(eye);
 
-    // TODO: add your other configuration settings here
+    scene_width = jsonscene["ImageSize"][0];
+    scene_height = jsonscene["ImageSize"][1];
 
     for (auto const &lightNode : jsonscene["Lights"])
         scene.addLight(parseLightNode(lightNode));
@@ -165,8 +163,7 @@ catch (exception const &ex)
 
 void Raytracer::renderToFile(string const &ofname)
 {
-    // TODO: the size may be a settings in your file
-    Image img(400, 400);
+    Image img(scene_width, scene_height);
     cout << "Tracing...\n";
     scene.render(img);
     cout << "Writing image to " << ofname << "...\n";

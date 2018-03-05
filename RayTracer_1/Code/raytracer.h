@@ -14,6 +14,8 @@ class Material;
 class Raytracer
 {
     Scene scene;
+    int scene_height;
+    int scene_width;
 
     public:
 

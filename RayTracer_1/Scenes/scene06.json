@@ -1,8 +1,9 @@
 {
+	"ImageSize": [400,400],
     "Eye": [0, 0, 1000],
     "Lights": [
         {
-            "position": [80, 200, 200],
+            "position": [300, 300, 1000],
             "color": [1.0, 1.0, 1.0]
         }
     ],
@@ -10,14 +11,16 @@
         {
             "type": "mesh",
             "comment": "mesh",
-            "model": "../models/cube.obj",
+            "model": "../models/sphere.obj",
+            "position": [200, 200, 0],
+            "scale": 100,
             "material":
             {
                 "color": [0.0, 1.0, 0.0],
                 "ka": 0.2,
                 "kd": 0.8,
-                "ks": 0.5,
-                "n": 64
+                "ks": 1.0,
+                "n": 32
             }
         }
     ]
