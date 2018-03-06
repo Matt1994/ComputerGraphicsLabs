@@ -1,4 +1,4 @@
-# Install script for directory: /home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2
+# Install script for directory: /home/stefan/Desktop/Computer Graphics/RayTracer_2
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/stefan/Desktop/Computer Graphics/RayTracer_2/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

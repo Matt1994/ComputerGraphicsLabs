@@ -17,11 +17,12 @@ class Scene
     std::vector<LightPtr> lights;   // no ptr needed, but kept for consistency
     bool shadows;
     Point eye;
+    int depth;
 
     public:
 
         // trace a ray into the scene and return the color
-        Color trace(Ray const &ray);
+        Color trace(Ray const &ray, int depth);
 
         // render the scene to the given image
         void render(Image &img);
@@ -31,8 +32,10 @@ class Scene
         void addLight(Light const &light);
         void setEye(Triple const &position);
         void setShadows(bool b);
-        
+        void setDepth(int d);
+
         bool getShadows();
+        int getDepth();
         unsigned getNumObject();
         unsigned getNumLights();
 };

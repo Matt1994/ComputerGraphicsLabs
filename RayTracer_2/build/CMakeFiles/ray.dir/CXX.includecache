@@ -6,31 +6,31 @@
 
 #IncludeRegexTransform: 
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/hit.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/hit.h
 triple.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/triple.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/triple.h
 limits
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/image.cpp
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/image.cpp
 image.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/image.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/image.h
 lode/lodepng.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/lode/lodepng.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/lode/lodepng.h
 iostream
 -
 fstream
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/image.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/image.h
 triple.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/triple.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/triple.h
 string
 -
 vector
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/json/json.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/json/json.h
 algorithm
 -
 cassert
@@ -294,7 +294,7 @@ utility
 utility
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/json/json_fwd.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/json/json_fwd.h
 cstdint
 -
 map
@@ -306,15 +306,15 @@ string
 vector
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/light.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/light.h
 triple.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/triple.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/triple.h
 memory
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/lode/lodepng.cpp
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/lode/lodepng.cpp
 lodepng.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/lode/lodepng.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/lode/lodepng.h
 limits.h
 -
 stdio.h
@@ -322,7 +322,7 @@ stdio.h
 stdlib.h
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/lode/lodepng.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/lode/lodepng.h
 string.h
 -
 vector
@@ -330,39 +330,39 @@ vector
 string
 -
 lodepng.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/lode/lodepng.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/lode/lodepng.h
 iostream
 -
 lodepng.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/lode/lodepng.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/lode/lodepng.h
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/main.cpp
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/main.cpp
 raytracer.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/raytracer.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/raytracer.h
 iostream
 -
 string
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/material.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/material.h
 triple.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/triple.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/triple.h
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/object.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/object.h
 material.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/material.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/material.h
 hit.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/hit.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/hit.h
 ray.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/ray.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/ray.h
 triple.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/triple.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/triple.h
 memory
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/objloader.cpp
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/objloader.cpp
 objloader.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/objloader.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/objloader.h
 fstream
 -
 iostream
@@ -372,41 +372,41 @@ sstream
 cmath
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/objloader.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/objloader.h
 vertex.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/vertex.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/vertex.h
 string
 -
 vector
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/ray.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/ray.h
 triple.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/triple.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/triple.h
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/raytracer.cpp
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/raytracer.cpp
 raytracer.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/raytracer.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/raytracer.h
 image.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/image.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/image.h
 light.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/light.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/light.h
 material.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/material.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/material.h
 triple.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/triple.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/triple.h
 shapes/sphere.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/sphere.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/sphere.h
 shapes/plane.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/plane.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/plane.h
 shapes/triangle.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/triangle.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/triangle.h
 shapes/quad.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/quad.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/quad.h
 objloader.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/objloader.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/objloader.h
 json/json.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/json/json.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/json/json.h
 exception
 -
 fstream
@@ -414,25 +414,25 @@ fstream
 iostream
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/raytracer.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/raytracer.h
 scene.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/scene.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/scene.h
 string
 -
 json/json_fwd.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/json/json_fwd.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/json/json_fwd.h
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/scene.cpp
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/scene.cpp
 scene.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/scene.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/scene.h
 hit.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/hit.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/hit.h
 image.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/image.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/image.h
 material.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/material.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/material.h
 ray.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/ray.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/ray.h
 iostream
 -
 cmath
@@ -440,79 +440,79 @@ cmath
 limits
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/scene.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/scene.h
 light.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/light.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/light.h
 object.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/object.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/object.h
 triple.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/triple.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/triple.h
 vector
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/plane.cpp
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/plane.cpp
 plane.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/plane.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/plane.h
 iostream
 -
 cmath
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/plane.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/plane.h
 ../object.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/object.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/object.h
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/quad.cpp
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/quad.cpp
 triangle.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/triangle.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/triangle.h
 quad.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/quad.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/quad.h
 cmath
 -
 iostream
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/quad.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/quad.h
 ../object.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/object.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/object.h
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/sphere.cpp
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/sphere.cpp
 sphere.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/sphere.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/sphere.h
 cmath
 -
 iostream
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/sphere.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/sphere.h
 ../object.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/object.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/object.h
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/triangle.cpp
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/triangle.cpp
 triangle.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/triangle.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/triangle.h
 cmath
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/triangle.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/triangle.h
 ../object.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/object.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/object.h
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/solvers.cpp
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/solvers.cpp
 solvers.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/solvers.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/solvers.h
 cmath
 -
 utility
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/solvers.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/solvers.h
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/triple.cpp
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/triple.cpp
 triple.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/triple.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/triple.h
 json/json.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/json/json.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/json/json.h
 cmath
 -
 exception
@@ -520,11 +520,11 @@ exception
 iostream
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/triple.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/triple.h
 json/json_fwd.h
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/json/json_fwd.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/json/json_fwd.h
 iosfwd
 -
 
-/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/vertex.h
+/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/vertex.h
 

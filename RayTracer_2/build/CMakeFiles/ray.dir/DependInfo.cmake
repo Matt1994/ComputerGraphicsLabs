@@ -4,18 +4,18 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/image.cpp" "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/build/CMakeFiles/ray.dir/Code/image.cpp.o"
-  "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/lode/lodepng.cpp" "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/build/CMakeFiles/ray.dir/Code/lode/lodepng.cpp.o"
-  "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/main.cpp" "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/build/CMakeFiles/ray.dir/Code/main.cpp.o"
-  "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/objloader.cpp" "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/build/CMakeFiles/ray.dir/Code/objloader.cpp.o"
-  "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/raytracer.cpp" "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/build/CMakeFiles/ray.dir/Code/raytracer.cpp.o"
-  "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/scene.cpp" "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/build/CMakeFiles/ray.dir/Code/scene.cpp.o"
-  "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/plane.cpp" "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/build/CMakeFiles/ray.dir/Code/shapes/plane.cpp.o"
-  "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/quad.cpp" "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/build/CMakeFiles/ray.dir/Code/shapes/quad.cpp.o"
-  "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/sphere.cpp" "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/build/CMakeFiles/ray.dir/Code/shapes/sphere.cpp.o"
-  "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/shapes/triangle.cpp" "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/build/CMakeFiles/ray.dir/Code/shapes/triangle.cpp.o"
-  "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/solvers.cpp" "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/build/CMakeFiles/ray.dir/Code/solvers.cpp.o"
-  "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/Code/triple.cpp" "/home/matt/Documents/uni/computing_science/year3/2a/computergraphics/ComputerGraphicsLabs/RayTracer_2/build/CMakeFiles/ray.dir/Code/triple.cpp.o"
+  "/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/image.cpp" "/home/stefan/Desktop/Computer Graphics/RayTracer_2/build/CMakeFiles/ray.dir/Code/image.cpp.o"
+  "/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/lode/lodepng.cpp" "/home/stefan/Desktop/Computer Graphics/RayTracer_2/build/CMakeFiles/ray.dir/Code/lode/lodepng.cpp.o"
+  "/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/main.cpp" "/home/stefan/Desktop/Computer Graphics/RayTracer_2/build/CMakeFiles/ray.dir/Code/main.cpp.o"
+  "/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/objloader.cpp" "/home/stefan/Desktop/Computer Graphics/RayTracer_2/build/CMakeFiles/ray.dir/Code/objloader.cpp.o"
+  "/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/raytracer.cpp" "/home/stefan/Desktop/Computer Graphics/RayTracer_2/build/CMakeFiles/ray.dir/Code/raytracer.cpp.o"
+  "/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/scene.cpp" "/home/stefan/Desktop/Computer Graphics/RayTracer_2/build/CMakeFiles/ray.dir/Code/scene.cpp.o"
+  "/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/plane.cpp" "/home/stefan/Desktop/Computer Graphics/RayTracer_2/build/CMakeFiles/ray.dir/Code/shapes/plane.cpp.o"
+  "/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/quad.cpp" "/home/stefan/Desktop/Computer Graphics/RayTracer_2/build/CMakeFiles/ray.dir/Code/shapes/quad.cpp.o"
+  "/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/sphere.cpp" "/home/stefan/Desktop/Computer Graphics/RayTracer_2/build/CMakeFiles/ray.dir/Code/shapes/sphere.cpp.o"
+  "/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/shapes/triangle.cpp" "/home/stefan/Desktop/Computer Graphics/RayTracer_2/build/CMakeFiles/ray.dir/Code/shapes/triangle.cpp.o"
+  "/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/solvers.cpp" "/home/stefan/Desktop/Computer Graphics/RayTracer_2/build/CMakeFiles/ray.dir/Code/solvers.cpp.o"
+  "/home/stefan/Desktop/Computer Graphics/RayTracer_2/Code/triple.cpp" "/home/stefan/Desktop/Computer Graphics/RayTracer_2/build/CMakeFiles/ray.dir/Code/triple.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
