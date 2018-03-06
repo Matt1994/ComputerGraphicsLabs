@@ -11,7 +11,7 @@
 
 using namespace std;
 
-Color Scene::trace(Ray const &ray)
+Color Scene::trace(Ray const &ray, int depth)
 {
     // Find hit object and distance
     Hit min_hit(numeric_limits<double>::infinity(), Vector());
@@ -33,24 +33,6 @@ Color Scene::trace(Ray const &ray)
     Point hit = ray.at(min_hit.t);                 //the hit point
     Vector N = min_hit.N;                          //the normal at hit point
     Vector V = -ray.D;                             //the view vector
-
-    /****************************************************
-    * This is where you should insert the color
-    * calculation (Phong model).
-    *
-    * Given: material, hit, N, V, lights[]
-    * Sought: color
-    *
-    * Hints: (see triple.h)
-    *        Triple.dot(Vector) dot product
-    *        Vector + Vector    vector sum
-    *        Vector - Vector    vector difference
-    *        Point - Point      yields vector
-    *        Vector.normalize() normalizes vector, returns length
-    *        double * Color     scales each color component (r,g,b)
-    *        Color * Color      dito
-    *        pow(a,b)           a to the power of b
-    ****************************************************/
     
     Color color, color_diffuse, color_ambient, color_spec;
     
@@ -78,13 +60,18 @@ Color Scene::trace(Ray const &ray)
 					}
 				}
 			}
-		
+            
+            Vector L       = (lights[i]->position - hit).normalized();
+            Vector R         = ((2*(N.dot(L))*N) - L).normalized();
+                
 			if(!new_obj) {
-				Vector L 		 = (lights[i]->position - hit).normalized();
-				Vector R 		 = ((2*(N.dot(L))*N) - L).normalized();
 				color_diffuse 	+= max(0.0,(L.dot(N))) * material.color * lights[i]->color * material.kd;
 				color_spec		+= pow(max(0.0,R.dot(V)),material.n) * lights[i]->color * material.ks;
-			}
+			} else if(depth) {
+                Ray new_ray(newOrigin, R);
+                color_spec      += trace(new_ray, depth-1);
+            }
+
 		} else {
 			Vector L 		 = (lights[i]->position - hit).normalized();
 			Vector R 		 = ((2*(N.dot(L))*N) - L).normalized();
@@ -92,7 +79,7 @@ Color Scene::trace(Ray const &ray)
 			color_spec		+= pow(max(0.0,R.dot(V)),material.n) * lights[i]->color * material.ks;
 		}
 	}
-	
+
 	/* Combine the three into one single color */
 	
 	color = color_diffuse + color_ambient + color_spec;
@@ -110,7 +97,7 @@ void Scene::render(Image &img)
         {
             Point pixel(x + 0.5, h - 1 - y + 0.5, 0);
             Ray ray(eye, (pixel - eye).normalized());
-            Color col = trace(ray);
+            Color col = trace(ray, depth);
             col.clamp();
             img(x, y) = col;
         }
@@ -150,4 +137,12 @@ void Scene::setShadows(bool b){
 
 bool Scene::getShadows(){
 	return shadows;
+}
+
+void Scene::setDepth(int d) {
+    depth = d;
+}
+
+int Scene::getDepth() {
+    return depth;
 }

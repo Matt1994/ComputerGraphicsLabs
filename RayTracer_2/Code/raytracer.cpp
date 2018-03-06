@@ -139,6 +139,7 @@ try
 	scene_width = 400;
 	scene_height = 400;
 	scene.setShadows(false);
+    scene.setDepth(0);
 
 	if(jsonscene["ImageSize"] != nullptr){
 		scene_width = jsonscene["ImageSize"][0];
@@ -148,6 +149,11 @@ try
 	if(jsonscene["Shadows"] != nullptr){
 		scene.setShadows(jsonscene["Shadows"]);
 	}
+
+    if(jsonscene["MaxRecursionDepth"] != nullptr) {
+        scene.setDepth(jsonscene["MaxRecursionDepth"]);
+    }
+
 
     for (auto const &lightNode : jsonscene["Lights"])
         scene.addLight(parseLightNode(lightNode));
