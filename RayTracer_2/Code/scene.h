@@ -17,7 +17,7 @@ class Scene
     std::vector<LightPtr> lights;   // no ptr needed, but kept for consistency
     bool shadows;
     Point eye;
-    int depth;
+    int maxdepth;
 
     public:
 
@@ -32,10 +32,10 @@ class Scene
         void addLight(Light const &light);
         void setEye(Triple const &position);
         void setShadows(bool b);
-        void setDepth(int d);
+        void setMaxDepth(int d);
 
         bool getShadows();
-        int getDepth();
+        int getMaxDepth();
         unsigned getNumObject();
         unsigned getNumLights();
 };
