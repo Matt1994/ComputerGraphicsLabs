@@ -32,6 +32,10 @@ Hit Quad::intersect(Ray const &ray)
 	
 }
 
+Point Quad::getTexCoords(float x, float y, float z){
+	return Point(x,y,0);
+}
+
 Quad::Quad(Point const &p1, Point const &p2, Point const &p3, Point const &p4)
 :
 	point1(p1),

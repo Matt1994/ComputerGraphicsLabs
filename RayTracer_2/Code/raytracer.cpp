@@ -5,6 +5,8 @@
 #include "material.h"
 #include "triple.h"
 
+#include <string>
+
 // =============================================================================
 // -- Include all your shapes here ---------------------------------------------
 // =============================================================================
@@ -99,8 +101,22 @@ bool Raytracer::parseObjectNode(json const &node)
 
     // Parse material and add object to the scene
     obj->material = parseMaterialNode(node["material"]);
+	
+	if(node["material"].count("texture")){
+		obj->texture = parseTexture(node["material"]);
+		obj->hasTexture = true;
+	} else {
+		obj->hasTexture = false;
+	}
+	
     scene.addObject(obj);
     return true;
+}
+
+Image Raytracer::parseTexture(json const &node) const
+{
+	string s = node.at("texture");
+	return Image("../Scenes/" + s);
 }
 
 Light Raytracer::parseLightNode(json const &node) const
@@ -112,7 +128,12 @@ Light Raytracer::parseLightNode(json const &node) const
 
 Material Raytracer::parseMaterialNode(json const &node) const
 {
-    Color color(node["color"]);
+	Color color;
+    if(node.count("color")){
+		color = Color(node["color"]);
+	} else {
+		color = Color(0.0,0.0,0.0);
+	}
     double ka = node["ka"];
     double kd = node["kd"];
     double ks = node["ks"];
@@ -140,6 +161,7 @@ try
 	scene_height = 400;
 	scene.setShadows(false);
     scene.setMaxDepth(0);
+    scene.setSuperSampleLevel(1);
 
 	if(jsonscene["ImageSize"] != nullptr){
 		scene_width = jsonscene["ImageSize"][0];
@@ -153,7 +175,10 @@ try
     if(jsonscene["MaxRecursionDepth"] != nullptr) {
         scene.setMaxDepth(jsonscene["MaxRecursionDepth"]);
     }
-
+    
+    if(jsonscene["SuperSamplingFactor"] != nullptr) {
+        scene.setSuperSampleLevel(jsonscene["SuperSamplingFactor"]);
+    }
 
     for (auto const &lightNode : jsonscene["Lights"])
         scene.addLight(parseLightNode(lightNode));

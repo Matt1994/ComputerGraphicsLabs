@@ -9,6 +9,8 @@ class Plane: public Object
         Plane(Point const &point, Vector const &d1, Vector const &d2);
 
         virtual Hit intersect(Ray const &ray);
+        
+        virtual Point getTexCoords(float x, float y, float z);
 
 		Point  const point;
         Vector const direction1;

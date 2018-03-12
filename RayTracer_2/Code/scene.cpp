@@ -34,11 +34,20 @@ Color Scene::trace(Ray const &ray, int depth)
     Vector N = min_hit.N;                       //the normal at hit point
     Vector V = -ray.D;                          //the view vector
     
+    Color objColor;
+    
+    if(obj->hasTexture){
+		Point texCoords = obj->getTexCoords(hit.x,hit.y,hit.z);
+		objColor = obj->texture.colorAt(texCoords.x, texCoords.y);
+	} else {
+		objColor = material.color;
+	}
+    
     Color color;
     
     /* Set up ambient color */
     
-    color = material.color * material.ka;
+    color = objColor * material.ka;
     
     /* Sum the total of the diffuse and and specular of all lights */
  
@@ -65,7 +74,7 @@ Color Scene::trace(Ray const &ray, int depth)
 		}
 		
 		if(!inshadow){
-			color += max(0.0,(L.dot(N))) * material.color * lights[i]->color * material.kd;
+			color += max(0.0,(L.dot(N))) * objColor * lights[i]->color * material.kd;
 			color += pow(max(0.0,R.dot(V)),material.n) * lights[i]->color * material.ks;
 		}
 	}
@@ -87,13 +96,25 @@ void Scene::render(Image &img)
 {
     unsigned w = img.width();
     unsigned h = img.height();
+    
     for (unsigned y = 0; y < h; ++y)
     {
         for (unsigned x = 0; x < w; ++x)
         {
-            Point pixel(x + 0.5, h - 1 - y + 0.5, 0);
-            Ray ray(eye, (pixel - eye).normalized());
-            Color col = trace(ray,0);
+            Color col;
+			float sy, sx, realy = h - 1 - y, lvl = getSuperSampleLevel() * 2;
+            for(float s1 = 0;s1 < getSuperSampleLevel();s1++)
+            {
+				sy = realy + 1/lvl + (s1 * 1/getSuperSampleLevel());
+				for(float s2 = 0;s2 < getSuperSampleLevel();s2++)
+				{
+					sx = x + 1/lvl + (s2 * 1/getSuperSampleLevel());
+					Point p(sx,sy,0);
+					Ray r(eye,(p - eye).normalized());
+					col += trace(r,0);
+				}
+			}
+			col /= (getSuperSampleLevel() == 1 ? 1 : pow(getSuperSampleLevel(),2));
             col.clamp();
             img(x, y) = col;
         }
@@ -141,4 +162,12 @@ void Scene::setMaxDepth(int d) {
 
 int Scene::getMaxDepth() {
     return maxdepth;
+}
+
+void Scene::setSuperSampleLevel(int s) {
+    supersamplelevel = s;
+}
+
+int Scene::getSuperSampleLevel() {
+    return supersamplelevel;
 }

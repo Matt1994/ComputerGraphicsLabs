@@ -18,6 +18,7 @@ class Scene
     bool shadows;
     Point eye;
     int maxdepth;
+    int supersamplelevel;
 
     public:
 
@@ -33,8 +34,10 @@ class Scene
         void setEye(Triple const &position);
         void setShadows(bool b);
         void setMaxDepth(int d);
+        void setSuperSampleLevel(int s);
 
         bool getShadows();
+        int getSuperSampleLevel();
         int getMaxDepth();
         unsigned getNumObject();
         unsigned getNumLights();
