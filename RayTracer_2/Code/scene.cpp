@@ -36,6 +36,8 @@ Color Scene::trace(Ray const &ray, int depth)
     
     Color objColor;
     
+    // If the object has a texture, get the texture coordinates and set the color to
+    // the texture at that point, else set it to the object color
     if(obj->hasTexture){
 		Point texCoords = obj->getTexCoords(hit.x,hit.y,hit.z);
 		objColor = obj->texture.colorAt(texCoords.x, texCoords.y);

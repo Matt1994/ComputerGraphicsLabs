@@ -33,11 +33,14 @@ Hit Sphere::intersect(Ray const &ray)
 }
 
 Point Sphere::getTexCoords(float x, float y, float z){
-	Point p(x,y,z);
-	Vector i = (p - position).normalized();
-	float u = acos(i.z/sqrt((i.x*i.x)+(i.y*i.y)+(i.z*i.z)))/(2*M_PI);
-	float v = (atan2(i.y,i.z)+M_PI)/(2*M_PI);
-	cout << u << " " << v << endl;
+	Point point_on_sphere(x,y,z);
+	Point rel = point_on_sphere - position;
+	double phi = atan2(rel.y, rel.x);
+	if (phi < 0) phi += 2*M_PI;
+	
+	float u = phi / (2*M_PI);
+	float v = (M_PI - (acos(-rel.z / r))) / M_PI;
+
 	return Point(u,v,0);
 }
 

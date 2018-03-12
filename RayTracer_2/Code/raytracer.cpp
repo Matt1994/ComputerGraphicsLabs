@@ -102,6 +102,7 @@ bool Raytracer::parseObjectNode(json const &node)
     // Parse material and add object to the scene
     obj->material = parseMaterialNode(node["material"]);
 	
+	// If object has a texture, load it, and indicate that this has been set
 	if(node["material"].count("texture")){
 		obj->texture = parseTexture(node["material"]);
 		obj->hasTexture = true;
@@ -129,6 +130,7 @@ Light Raytracer::parseLightNode(json const &node) const
 Material Raytracer::parseMaterialNode(json const &node) const
 {
 	Color color;
+	// Not all shapes will now have a color set. If none, then set it to white
     if(node.count("color")){
 		color = Color(node["color"]);
 	} else {
