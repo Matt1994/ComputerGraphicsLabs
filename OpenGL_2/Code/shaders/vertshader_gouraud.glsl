@@ -13,6 +13,7 @@ uniform mat4 modelTransform;
 uniform mat4 perspectiveTransform;
 uniform mat3 normalTransform;
 uniform vec3 lightPosition;
+uniform vec3 lightColor;
 uniform vec3 materialIntensity;
 uniform int phongExponent;
 
@@ -36,9 +37,9 @@ void main()
     vec3 R = normalize((2*dot(N,L)*N) - L);
     vec3 H = normalize(L + V);
 
-    vec3 amb     = vec3(materialIntensity.x);
-    vec3 diffuse = vec3(max(0.0, dot(L,N)) * materialIntensity.y);
-    vec3 spec    = vec3(pow(max(0.0,dot(N,H)),phongExponent) * materialIntensity.z);
+    vec3 amb     = materialIntensity.x * lightColor;
+    vec3 diffuse = max(0.0, dot(L,N)) * materialIntensity.y * lightColor;
+    vec3 spec    = pow(max(0.0,dot(N,H)),phongExponent) * materialIntensity.z * lightColor;
 
     vertIntensity = amb + diffuse + spec;
     texture_out = vertTexture_in;

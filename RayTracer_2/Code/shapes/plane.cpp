@@ -27,6 +27,10 @@ Hit Plane::intersect(Ray const &ray)
 	return Hit(t,N);
 }
 
+Point Plane::getTexCoords(float x, float y, float z){
+	return Point(x,y,0);
+}
+
 Plane::Plane(Point const &point, Vector const &d1, Vector const &d2)
 :
 	point(point),

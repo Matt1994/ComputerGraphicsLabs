@@ -9,6 +9,8 @@ class Triangle: public Object
         Triangle(Point const &p1, Point const &p2, Point const &p3);
 
         virtual Hit intersect(Ray const &ray);
+        
+        virtual Point getTexCoords(float x, float y, float z);
 
         Point const point1;
         Point const point2;

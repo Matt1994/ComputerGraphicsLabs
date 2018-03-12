@@ -107,7 +107,7 @@ void MainView::initializeGL() {
     // Set the color of the screen to be black on clear (new frame)
     glClearColor(0.2f, 0.5f, 0.7f, 0.0f);
 
-    loadModel(":/models/cat.obj", QVector3D(0, 0, -5));
+    loadModel(":/models/sphere.obj", QVector3D(0, 0, -5));
 
     perspectiveMatrix.perspective(60.0,width()/height(),1,100);
 
@@ -160,6 +160,7 @@ void MainView::addShader(GLuint shader, QString vertexshader, QString fragshader
     normalTransformLocation[shader]      = shaderPrograms[shader].uniformLocation("normalTransform");
     if(shader != MainView::NORMAL){
         lightPositionLocation[shader]        = shaderPrograms[shader].uniformLocation("lightPosition");
+        lightColorLocation[shader]      	 = shaderPrograms[shader].uniformLocation("lightColor");
         materialIntensityLocation[shader]    = shaderPrograms[shader].uniformLocation("materialIntensity");
         phongExponentLocation[shader]        = shaderPrograms[shader].uniformLocation("phongExponent");
         texSamplerLocation[shader]           = shaderPrograms[shader].uniformLocation("texSampler");
@@ -196,6 +197,7 @@ void MainView::paintGL() {
         glUniformMatrix3fv(normalTransformLocation[currentShadingMode], 1, GL_FALSE, normalMatrix.data());
         if(currentShadingMode != MainView::NORMAL){
             glUniform3fv(lightPositionLocation[currentShadingMode], 1, lightPosition);
+			glUniform3fv(lightColorLocation[currentShadingMode], 1, lightColor);
             glUniform3fv(materialIntensityLocation[currentShadingMode], 1, materialIntensity);
             glUniform1i(phongExponentLocation[currentShadingMode], phongExponent);
         }

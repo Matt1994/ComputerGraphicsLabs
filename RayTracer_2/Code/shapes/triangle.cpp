@@ -38,6 +38,10 @@ Hit Triangle::intersect(Ray const &ray)
     return Hit(t,N);
 }
 
+Point Triangle::getTexCoords(float x, float y, float z){
+	return Point(x,y,0);
+}
+
 Triangle::Triangle(Point const &p1, Point const &p2, Point const &p3)
 :
 	point1(p1),
