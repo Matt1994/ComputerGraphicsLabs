@@ -18,6 +18,7 @@ class Object
     public:
         Material material;
         Image texture;
+        Vector rotationVector;
         bool hasTexture;
 
         virtual ~Object() = default;
