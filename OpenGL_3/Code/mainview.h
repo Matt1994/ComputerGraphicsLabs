@@ -34,6 +34,7 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     QVector<Shape> shapes;
 
     QMatrix4x4 perspectiveMatrix;
+    QMatrix4x4 viewMatrix;
 
     GLint modelTransformLocation[3];
     GLint perspectiveTransformLocation[3];
@@ -57,7 +58,7 @@ public:
 
     // Functions for widget input events
     void setRotation(int rotateX, int rotateY, int rotateZ);
-    void setScale(int scale);
+    void setZoom(int zoom);
     void setShadingMode(ShadingMode shading);
     void setMaterialIntensity(float intensity1, float intensity2, float intensity3);
     void setLightPosition(double x, double y, double z);

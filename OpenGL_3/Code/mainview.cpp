@@ -27,7 +27,6 @@ void MainView::loadModel(QString filename, QVector3D position, QString texture, 
     object.vertices         = (Vertex *)malloc(sizeof(Vertex)*object.numVertices);
     object.position         = position;
     object.texture          = texture;
-    object.scale            = scale;
     object.rotationSpeed    = rotationSpeed;
     object.orbitVector      = orbitVector;
     object.orbitSpeed       = orbitSpeed;
@@ -35,9 +34,9 @@ void MainView::loadModel(QString filename, QVector3D position, QString texture, 
     // Retrieve model vertex data from model and insert into model struct
     // Data has been unitized when the model was created
     for(int i = 0;i<object.numVertices;i++){
-        object.vertices[i].x  = objectModel.getVertices().at(i).x();
-        object.vertices[i].y  = objectModel.getVertices().at(i).y();
-        object.vertices[i].z  = objectModel.getVertices().at(i).z();
+        object.vertices[i].x  = objectModel.getVertices().at(i).x()*scale;
+        object.vertices[i].y  = objectModel.getVertices().at(i).y()*scale;
+        object.vertices[i].z  = objectModel.getVertices().at(i).z()*scale;
         object.vertices[i].nx = objectModel.getNormals().at(i).x();
         object.vertices[i].ny = objectModel.getNormals().at(i).y();
         object.vertices[i].nz = objectModel.getNormals().at(i).z();
@@ -46,6 +45,7 @@ void MainView::loadModel(QString filename, QVector3D position, QString texture, 
     }
 
     object.modelMatrix.translate(object.position);
+    object.translateVector = object.position;
 
     shapes.append(object);
 }
@@ -114,9 +114,9 @@ void MainView::initializeGL() {
     resizeGL(width(), height());
 
     loadModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/sunmap.jpg", 1, 0.05, QVector3D(0,0,0), 0);
-    loadModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/mars1k.png", 0.1, 0.4, QVector3D(3,0,0), 0.4);
-    loadModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/earthmap1k.png", 0.08, 0.4, QVector3D(4,0,0), 0.2);
-    loadModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/jupiter2_1k.png", 0.4, 0.4, QVector3D(8,0,0), 0.1);
+    loadModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/mars1k.png", 0.3, 0.4, QVector3D(4,0,0), 0.6);
+    loadModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/earthmap1k.png", 0.4, 0.4, QVector3D(8,0,0), 0.3);
+    loadModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/jupiter2_1k.png", 0.6, 0.4, QVector3D(15,0,0), 0.1);
 
     createShaderPrograms();
 
@@ -190,7 +190,6 @@ void MainView::paintGL() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     for(int i=0; i<shapes.length(); i++) {
-       shapes.data()[i].rotation += shapes.data()[i].rotationSpeed;
        shapes.data()[i].updateModelMatrix();
     }
 
@@ -230,7 +229,7 @@ void MainView::resizeGL(int newWidth, int newHeight)
 {
     // Set new aspect ratio of the viewport
     perspectiveMatrix.setToIdentity();
-    perspectiveMatrix.perspective(60.0,(float)newWidth/(float)newHeight,1,20);
+    perspectiveMatrix.perspective(60.0,(float)newWidth/(float)newHeight,1,100);
 }
 
 // --- Public interface
@@ -246,21 +245,12 @@ void MainView::setRotation(int rotateX, int rotateY, int rotateZ)
     update();
 }
 
-void MainView::setScale(int scale)
+void MainView::setZoom(int zoom)
 {
-    qDebug() << "Scale changed to " << scale;
-
-    // Calculate the relative change in scale; Keeps the scaling uniform
-    float changeInScale = scale/currentScale;
-
     for(int i=0; i<shapes.length(); i++) {
-        shapes.data()[i].modelMatrix.scale(changeInScale);
+        shapes.data()[i].scale = float(zoom)/100;
     }
-
-    // Update the current scale
-    currentScale = scale;
-
-    update();
+    currentScale = zoom;
 }
 
 void MainView::setShadingMode(ShadingMode shading)

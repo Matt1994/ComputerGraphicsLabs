@@ -135,7 +135,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QGroupBox" name="scalingBox">
+        <widget class="QGroupBox" name="zoomBox">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -155,11 +155,11 @@
           </size>
          </property>
          <property name="title">
-          <string>Scaling</string>
+          <string>Zoom</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QSlider" name="ScaleSlider">
+           <widget class="QSlider" name="ZoomSlider">
             <property name="minimum">
              <number>1</number>
             </property>
@@ -184,9 +184,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="ResetScaleButton">
+           <widget class="QPushButton" name="ResetZoomButton">
             <property name="text">
-             <string>Reset Scaling</string>
+             <string>Reset Zoom</string>
             </property>
            </widget>
           </item>

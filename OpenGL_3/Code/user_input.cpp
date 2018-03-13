@@ -6,16 +6,16 @@
 void MainView::keyPressEvent(QKeyEvent *ev)
 {
     switch(ev->key()) {
-    case 'A': qDebug() << "A pressed"; break;
+    case 61:
+        if(currentScale + 1 < 200) setZoom(currentScale + 1);
+        break;
+    case 45:
+        if(currentScale - 1 > 0) setZoom(currentScale - 1);
+        break;
     default:
-        // ev->key() is an integer. For alpha numeric characters keys it equivalent with the char value ('A' == 65, '1' == 49)
-        // Alternatively, you could use Qt Key enums, see http://doc.qt.io/qt-5/qt.html#Key-enum
         qDebug() << ev->key() << "pressed";
         break;
     }
-
-    // Used to update the screen after changes
-    update();
 }
 
 // Triggered by releasing a key
@@ -71,6 +71,4 @@ void MainView::wheelEvent(QWheelEvent *ev)
 {
     // Implement something
     qDebug() << "Mouse wheel:" << ev->delta();
-
-    update();
 }
