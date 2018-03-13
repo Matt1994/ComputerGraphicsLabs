@@ -87,7 +87,7 @@ private:
     void createShaderPrograms();
     void addShader(GLuint shader, QString vertexshader, QString fragshader);
     void loadTexture(Shape shape, QString file);
-    void loadModel(QString filename, QVector3D translateVector, QString texture, float scale, float rotationSpeed);
+    void loadModel(QString filename, QVector3D translateVector, QString texture, float scale, float rotationSpeed, QVector3D orbitVector, float orbitSpeed);
 };
 
 #endif // MAINVIEW_H
