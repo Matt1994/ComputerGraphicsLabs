@@ -20,7 +20,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_ResetRotationButton_clicked(bool checked)
 {
-    Q_UNUSED(checked);
     ui->RotationDialX->setValue(0);
     ui->RotationDialY->setValue(0);
     ui->RotationDialZ->setValue(0);
@@ -48,16 +47,15 @@ void MainWindow::on_RotationDialZ_sliderMoved(int value)
                               value);
 }
 
-void MainWindow::on_ResetScaleButton_clicked(bool checked)
+void MainWindow::on_ResetZoomButton_clicked(bool checked)
 {
-    Q_UNUSED(checked);
-    ui->ScaleSlider->setValue(100);
-    ui->mainView->setScale(100);
+    ui->ZoomSlider->setValue(100);
+    ui->mainView->setZoom(100);
 }
 
-void MainWindow::on_ScaleSlider_sliderMoved(int value)
+void MainWindow::on_ZoomSlider_sliderMoved(int value)
 {
-    ui->mainView->setScale(value);
+    ui->mainView->setZoom(value);
 }
 
 void MainWindow::on_PhongButton_toggled(bool checked)

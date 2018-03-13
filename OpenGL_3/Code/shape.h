@@ -19,7 +19,7 @@ struct Shape {
     GLuint texturePointer;
     QString texture;
 
-    float scale;
+    float scale = 1;
     float rotation = 0;
     float orbitAngle = 0;
 
@@ -35,16 +35,14 @@ struct Shape {
         orbitMatrix.setToIdentity();
 
         orbitAngle += orbitSpeed;
-        orbitMatrix.rotate(orbitAngle,0,1,0);
+        rotation += rotationSpeed;
 
-        translateVector = (orbitMatrix*orbitVector) + position;
+        orbitMatrix.rotate(orbitAngle,0,1,0);
+        translateVector = (orbitMatrix*(orbitVector*scale)) + position;
 
         modelMatrix.translate(translateVector);
-
-        rotation += rotationSpeed;
-        modelMatrix.rotate(rotation,0,1,0);
-
         modelMatrix.scale(scale);
+        modelMatrix.rotate(rotation,0,1,0);
     }
 };
 
