@@ -14,5 +14,14 @@
         <file>shaders/fragshader_phong.glsl</file>
         <file>shaders/vertshader_gouraud.glsl</file>
         <file>shaders/vertshader_phong.glsl</file>
+<<<<<<< HEAD
+=======
+        <file>textures/earthmap1k.png</file>
+        <file>textures/mars1k.png</file>
+        <file>textures/jupitermap.png</file>
+        <file>textures/jupiter2_1k.png</file>
+        <file>textures/europa.jpg</file>
+        <file>textures/sunmap.jpg</file>
+>>>>>>> master
     </qresource>
 </RCC>

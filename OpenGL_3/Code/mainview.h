@@ -44,9 +44,12 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     GLint phongExponentLocation[3];
     GLint texSamplerLocation[3];
 
+<<<<<<< HEAD
     QVector<quint8> textureImage;
     GLuint texturePointer;
 
+=======
+>>>>>>> master
     float currentScale = 100;
 
 public:
@@ -89,8 +92,13 @@ private slots:
 private:
     void createShaderPrograms();
     void addShader(GLuint shader, QString vertexshader, QString fragshader);
+<<<<<<< HEAD
     void loadTexture(QString file, GLuint texturePtr);
     void loadModel(QString filename, QVector3D translateVector);
+=======
+    void loadTexture(Shape shape, QString file);
+    void loadModel(QString filename, QVector3D translateVector, QString texture, float scale, float rotationSpeed);
+>>>>>>> master
 };
 
 #endif // MAINVIEW_H
