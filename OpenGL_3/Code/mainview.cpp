@@ -18,17 +18,19 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
 
 }
 
-void MainView::loadModel(QString filename, QVector3D translateVector, QString texture, float scale, float rotationSpeed){
+void MainView::loadModel(QString filename, QVector3D position, QString texture, float scale, float rotationSpeed, QVector3D orbitVector, float orbitSpeed){
     Model objectModel(filename);
     Shape object;
 
     // Set up model
     object.numVertices      = objectModel.getVertices().count();
     object.vertices         = (Vertex *)malloc(sizeof(Vertex)*object.numVertices);
-    object.translateVector  = translateVector;
+    object.position         = position;
     object.texture          = texture;
     object.scale            = scale;
     object.rotationSpeed    = rotationSpeed;
+    object.orbitVector      = orbitVector;
+    object.orbitSpeed       = orbitSpeed;
 
     // Retrieve model vertex data from model and insert into model struct
     // Data has been unitized when the model was created
@@ -43,7 +45,7 @@ void MainView::loadModel(QString filename, QVector3D translateVector, QString te
         object.vertices[i].ty = objectModel.getTextureCoords().at(i).y();
     }
 
-    object.modelMatrix.translate(object.translateVector);
+    object.modelMatrix.translate(object.position);
 
     shapes.append(object);
 }
@@ -111,9 +113,10 @@ void MainView::initializeGL() {
 
     resizeGL(width(), height());
 
-    loadModel(":/models/sphere.obj", QVector3D(2, 0, -5), ":/textures/earthmap1k.png", 0.2, 0.3);
-    loadModel(":/models/sphere.obj", QVector3D(-2, 0, -5), ":/textures/jupiter2_1k.png", 0.4, 0.1);
-    loadModel(":/models/sphere.obj", QVector3D(0, 0, -5), ":/textures/sunmap.jpg", 1, 0.05);
+    loadModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/sunmap.jpg", 1, 0.05, QVector3D(0,0,0), 0);
+    loadModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/mars1k.png", 0.1, 0.4, QVector3D(3,0,0), 0.4);
+    loadModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/earthmap1k.png", 0.08, 0.4, QVector3D(4,0,0), 0.2);
+    loadModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/jupiter2_1k.png", 0.4, 0.4, QVector3D(8,0,0), 0.1);
 
     createShaderPrograms();
 
