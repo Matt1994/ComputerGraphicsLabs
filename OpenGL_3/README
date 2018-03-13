@@ -1,0 +1,22 @@
+Main Modifications:
+
+- Normal, Phong and Gouraud shading implemented
+- Selection between shaders implemented
+- Added widgets to modify certain uniforms
+- Texture mapping implemented
+- unitize() function implemented for models
+- We implemented a vector to hold the shape objects. This allows multiple models to 
+be added to the program.
+
+Normal Shading
+
+- The difference in the Normal shading when the normal matrix is and is not used is that the normals do not follow the shape as it is scaled and rotated, so the colours also rotate with the shape. When the matrix is included, the direction of the normals are properly transformed, and point the right direction. See screenshots.
+
+Textures
+
+- TEXTURE_WRAP_S defines how the texture should wrap along the x-axis
+- TEXTURE_WRAP_T defines how the texture should wrap along the y-axis
+- TEXTURE_MIN_FILTER defines what should happen if the pixel being textured
+maps to an area greater than one texture element
+- TEXTURE_MAG_FILTER defines what should happen if the pixel being textured
+maps to an area less than one texture element
