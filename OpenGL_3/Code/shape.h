@@ -12,6 +12,18 @@ struct Shape {
     QMatrix4x4 modelMatrix;
     QVector3D translateVector;
 
+<<<<<<< HEAD
+    Vertex *vertices;
+    int numVertices;
+
+    void rotateMatrix(int x, int y, int z, float scale){
+        modelMatrix.setToIdentity();
+        modelMatrix.translate(translateVector);
+        modelMatrix.scale(scale);
+        modelMatrix.rotate(x,1,0,0);
+        modelMatrix.rotate(y,0,1,0);
+        modelMatrix.rotate(z,0,0,1);
+=======
     QVector<quint8> textureImage;
     GLuint texturePointer;
     QString texture;
@@ -28,6 +40,7 @@ struct Shape {
         modelMatrix.translate(translateVector);
         modelMatrix.scale(scale);
         modelMatrix.rotate(rotation,0,1,0);
+>>>>>>> master
     }
 };
 

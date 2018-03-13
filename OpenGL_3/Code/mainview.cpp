@@ -18,7 +18,11 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
 
 }
 
+<<<<<<< HEAD
+void MainView::loadModel(QString filename, QVector3D translateVector){
+=======
 void MainView::loadModel(QString filename, QVector3D translateVector, QString texture, float scale, float rotationSpeed){
+>>>>>>> master
     Model objectModel(filename);
     Shape object;
 
@@ -26,9 +30,12 @@ void MainView::loadModel(QString filename, QVector3D translateVector, QString te
     object.numVertices      = objectModel.getVertices().count();
     object.vertices         = (Vertex *)malloc(sizeof(Vertex)*object.numVertices);
     object.translateVector  = translateVector;
+<<<<<<< HEAD
+=======
     object.texture          = texture;
     object.scale            = scale;
     object.rotationSpeed    = rotationSpeed;
+>>>>>>> master
 
     // Retrieve model vertex data from model and insert into model struct
     // Data has been unitized when the model was created
@@ -64,9 +71,16 @@ MainView::~MainView() {
     for(int i = 0;i < shapes.length();i++) {
         glDeleteBuffers(1, &shapes.data()[i].vbo);
         glDeleteBuffers(1, &shapes.data()[i].vao);
+<<<<<<< HEAD
+        free(shapes.data()[i].vertices);
+    }
+
+    glDeleteTextures(1, &texturePointer);
+=======
         glDeleteTextures(1, &shapes.data()[i].texturePointer);
         free(shapes.data()[i].vertices);
     }
+>>>>>>> master
 }
 
 // --- OpenGL initialization
@@ -107,6 +121,23 @@ void MainView::initializeGL() {
     glDepthFunc(GL_LEQUAL);
 
     // Set the color of the screen to be black on clear (new frame)
+<<<<<<< HEAD
+    glClearColor(0.2f, 0.5f, 0.7f, 0.0f);
+
+    loadModel(":/models/sphere.obj", QVector3D(0, 0, -5));
+
+    perspectiveMatrix.perspective(60.0,width()/height(),1,100);
+
+    glGenTextures(1, &texturePointer);
+    loadTexture(":/textures/cat_diff.png", texturePointer);
+
+    createShaderPrograms();
+
+    // Initialise cube buffers
+    for(int i=0; i<shapes.length(); i++) {
+        glGenBuffers(1, &(shapes.data()[i].vbo));
+        glGenVertexArrays(1, &(shapes.data()[i].vao));
+=======
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     resizeGL(width(), height());
@@ -122,6 +153,7 @@ void MainView::initializeGL() {
         glGenBuffers(1, &(shapes.data()[i].vbo));
         glGenVertexArrays(1, &(shapes.data()[i].vao));
         glGenTextures(1, &(shapes.data()[i].texturePointer));
+>>>>>>> master
         glBindVertexArray(shapes.data()[i].vao);
         glBindBuffer(GL_ARRAY_BUFFER, shapes.data()[i].vbo);
         glBufferData(GL_ARRAY_BUFFER, shapes.data()[i].numVertices*sizeof(Vertex), shapes.data()[i].vertices, GL_STATIC_DRAW);
@@ -131,6 +163,17 @@ void MainView::initializeGL() {
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(3*sizeof(float)));
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(6*sizeof(float)));
+<<<<<<< HEAD
+    }
+}
+
+void MainView::loadTexture(QString file, GLuint texturePtr)
+{
+    textureImage = imageToBytes(QImage(file));
+    glBindTexture(GL_TEXTURE_2D, texturePtr);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 512, 1024, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureImage.data());
+=======
         loadTexture(shapes.data()[i], shapes.data()[i].texture);
     }
 
@@ -145,6 +188,7 @@ void MainView::loadTexture(Shape shape, QString file)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, shape.textureImage.data());
+>>>>>>> master
     glGenerateMipmap(GL_TEXTURE_2D);
 }
 
@@ -183,6 +227,34 @@ void MainView::addShader(GLuint shader, QString vertexshader, QString fragshader
  *
  */
 void MainView::paintGL() {
+<<<<<<< HEAD
+    QMatrix3x3 normalMatrix;
+
+    // Clear the screen before rendering
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    shaderPrograms[currentShadingMode].bind();
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texturePointer);
+
+    // Fill perspective uniform with the perspective data
+    glUniformMatrix4fv(perspectiveTransformLocation[currentShadingMode], 1, GL_FALSE, perspectiveMatrix.data());
+
+    // For each shape, fill the model uniform with the model date, bind VAO and draw the shape
+    for(int i=0; i<shapes.length(); i++) {
+        normalMatrix = shapes.data()[i].modelMatrix.normalMatrix();
+        glUniformMatrix4fv(perspectiveTransformLocation[currentShadingMode], 1, GL_FALSE, perspectiveMatrix.data());
+        glUniformMatrix4fv(modelTransformLocation[currentShadingMode], 1, GL_FALSE, shapes.data()[i].modelMatrix.data());
+        glUniformMatrix3fv(normalTransformLocation[currentShadingMode], 1, GL_FALSE, normalMatrix.data());
+        if(currentShadingMode != MainView::NORMAL){
+            glUniform3fv(lightPositionLocation[currentShadingMode], 1, lightPosition);
+			glUniform3fv(lightColorLocation[currentShadingMode], 1, lightColor);
+            glUniform3fv(materialIntensityLocation[currentShadingMode], 1, materialIntensity);
+            glUniform1i(phongExponentLocation[currentShadingMode], phongExponent);
+        }
+        glBindVertexArray(shapes.data()[i].vao);
+=======
     // Clear the screen before rendering
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -209,6 +281,7 @@ void MainView::paintGL() {
         glBindTexture(GL_TEXTURE_2D, shapes.data()[i].texturePointer);
         glUniformMatrix4fv(modelTransformLocation[currentShadingMode], 1, GL_FALSE, shapes.data()[i].modelMatrix.data());
         glUniformMatrix3fv(normalTransformLocation[currentShadingMode], 1, GL_FALSE, shapes.data()[i].modelMatrix.normalMatrix().data());
+>>>>>>> master
         glDrawArrays(GL_TRIANGLES, 0, shapes.data()[i].numVertices);
     }
 
@@ -236,9 +309,15 @@ void MainView::setRotation(int rotateX, int rotateY, int rotateZ)
 {
     qDebug() << "Rotation changed to (" << rotateX << "," << rotateY << "," << rotateZ << ")";
 
+<<<<<<< HEAD
+    for(int i=0; i<shapes.length(); i++) {
+        shapes.data()[i].rotateMatrix(rotateX, rotateY, rotateZ, currentScale/100);
+    }
+=======
     /*for(int i=0; i<shapes.length(); i++) {
         shapes.data()[i].rotateMatrix(rotateX, rotateY, rotateZ, currentScale/100);
     }*/
+>>>>>>> master
 
     update();
 }
