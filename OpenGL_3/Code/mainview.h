@@ -47,7 +47,7 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     GLint texSamplerLocation[3];
     GLint viewTransformLocation[3];
 
-    float currentRotateX=0, currentRotateY=0, currentRotateZ=0, currentZoom=50;
+    float currentRotateX=0, currentRotateY=0, currentRotateZ=0, currentZoom=90;
 
 public:
     enum ShadingMode : GLuint
