@@ -114,7 +114,15 @@ void MainView::initializeGL() {
     CreateShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/sunmap.jpg", 3, 0.05, QVector3D(0,0,0), 0);
     CreateShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/mars1k.png", 0.3, 0.4, QVector3D(4,0,0), 0.6);
     CreateShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/earthmap1k.png", 0.4, 0.4, QVector3D(8,0,0), 0.3);
-    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/jupiter2_1k.png", 0.6, 0.4, QVector3D(15,0,0), 0.1);
+    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/jupiter2_1k.png", 0.7, 0.4, QVector3D(15,0,0), 0.1);
+    CreateShapeFromModel(":/models/cat.obj", QVector3D(0,0,-10), ":/textures/cat_diff.png", 0.2, 0.4, QVector3D(1,0,0), 0.6);
+    CreateShapeFromModel(":/models/cat.obj", QVector3D(0,0,-10), ":/textures/rug_logo.png", 0.2, 0.4, QVector3D(1,0,0), 0.6);
+
+    shapes.data()[2].hasChild = true;
+    shapes.data()[2].child = 4;
+
+    shapes.data()[3].hasChild = true;
+    shapes.data()[3].child = 5;
 
     createShaderPrograms();
 
@@ -193,6 +201,10 @@ void MainView::paintGL() {
 
     for(int i=0; i<shapes.length(); i++) {
        shapes.data()[i].updateModelMatrix();
+       if(shapes.data()[i].hasChild){
+           int c = shapes.data()[i].child;
+           shapes.data()[c].position = shapes.data()[i].translateVector;
+       }
     }
 
     shaderPrograms[currentShadingMode].bind();

@@ -7,27 +7,18 @@
 #include "vertex.h"
 
 struct Shape {
-    GLuint vbo;
-    GLuint vao;
-    QMatrix4x4 modelMatrix;
-    QMatrix4x4 orbitMatrix;
-    QVector3D position;
-
-    QVector3D translateVector;
-
+    GLuint vbo, vao, texturePointer;
+    QMatrix4x4 modelMatrix, orbitMatrix;
+    QVector3D position, translateVector, orbitVector;
     QVector<quint8> textureImage;
-    GLuint texturePointer;
     QString texture;
-
-    float rotation = 0;
-    float orbitAngle = 0;
-
-    float rotationSpeed;
-    float orbitSpeed;
-    QVector3D orbitVector;
-
+    float rotation = 0, orbitAngle = 0, rotationSpeed, orbitSpeed;
     Vertex *vertices;
     int numVertices;
+
+    bool hasChild = false;
+    int child;
+    QVector3D parent;
 
     void updateModelMatrix(){
         modelMatrix.setToIdentity();
@@ -39,6 +30,8 @@ struct Shape {
         modelMatrix.translate(translateVector);
         modelMatrix.rotate(rotation,0,1,0);
     }
+
+
 };
 
 #endif // SHAPE

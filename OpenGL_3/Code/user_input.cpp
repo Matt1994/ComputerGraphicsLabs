@@ -6,7 +6,10 @@
 void MainView::keyPressEvent(QKeyEvent *ev)
 {
     switch(ev->key()) {
-    case 'A': qDebug() << "A pressed"; break;
+    case 16777234: setRotation(currentRotateX, currentRotateY+1, currentRotateZ); break;
+    case 16777235: setRotation(currentRotateX+1, currentRotateY, currentRotateZ); break;
+    case 16777236: setRotation(currentRotateX, currentRotateY-1, currentRotateZ); break;
+    case 16777237: setRotation(currentRotateX-1, currentRotateY, currentRotateZ); break;
     default:
         qDebug() << ev->key() << "pressed";
         break;
