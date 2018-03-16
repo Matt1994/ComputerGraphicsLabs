@@ -25,7 +25,7 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     QOpenGLShaderProgram shaderPrograms[3];
 
     GLfloat lightPosition[3] = {0.0, 0.0, 10.0};
-    GLfloat lightColor[3] = {0.5, 1.0, 1.0};
+    GLfloat lightColor[3] = {2.0, 1.0, 1.0};
     GLfloat materialIntensity[3] = {0.2, 0.8, 0.5};
     int phongExponent = 16;
 
