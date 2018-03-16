@@ -11,10 +11,12 @@ layout (location = 2) in vec2 vertTexture_in;
 // Uniforms
 uniform mat4 modelTransform;
 uniform mat4 perspectiveTransform;
+uniform mat4 viewTransform;
 uniform mat3 normalTransform;
 uniform vec3 lightPosition;
 uniform vec3 lightColor;
 uniform vec3 materialIntensity;
+uniform vec3 eyePos;
 uniform int phongExponent;
 
 // Output
@@ -26,14 +28,11 @@ void main()
     vec4 position = modelTransform * vec4(vertCoordinates_in, 1.0);
 
     // gl_Position is the output (a vec4) of the vertex shader
-    gl_Position = perspectiveTransform * position;
-
-    vec3 eyePos = vec3(0.0,0.0,0.0);
+    gl_Position = perspectiveTransform * viewTransform * position;
 
     vec3 N = normalize(normalTransform * vertNormal_in);
     vec3 L = normalize(lightPosition - position.xyz);
     vec3 V = normalize(eyePos - position.xyz);
-    vec3 R = normalize((2*dot(N,L)*N) - L);
     vec3 H = normalize(L + V);
 
     vec3 amb     = materialIntensity.x * lightColor;

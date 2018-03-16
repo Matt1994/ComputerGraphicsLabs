@@ -25,7 +25,7 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     QOpenGLShaderProgram shaderPrograms[3];
 
     GLfloat lightPosition[3] = {0.0, 0.0, 10.0};
-    GLfloat lightColor[3] = {1.0, 1.0, 1.0};
+    GLfloat lightColor[3] = {0.5, 1.0, 1.0};
     GLfloat materialIntensity[3] = {0.2, 0.8, 0.5};
     int phongExponent = 16;
 
@@ -44,8 +44,9 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     GLint materialIntensityLocation[3];
     GLint phongExponentLocation[3];
     GLint texSamplerLocation[3];
+    GLint viewTransformLocation[3];
 
-    float currentScale = 100;
+    float currentRotateX=0, currentRotateY=0, currentRotateZ=0, currentZoom=50;
 
 public:
     enum ShadingMode : GLuint
@@ -59,6 +60,7 @@ public:
     // Functions for widget input events
     void setRotation(int rotateX, int rotateY, int rotateZ);
     void setZoom(int zoom);
+    void updateViewMatrix();
     void setShadingMode(ShadingMode shading);
     void setMaterialIntensity(float intensity1, float intensity2, float intensity3);
     void setLightPosition(double x, double y, double z);
@@ -88,7 +90,7 @@ private:
     void createShaderPrograms();
     void addShader(GLuint shader, QString vertexshader, QString fragshader);
     void loadTexture(Shape shape, QString file);
-    void loadModel(QString filename, QVector3D translateVector, QString texture, float scale, float rotationSpeed, QVector3D orbitVector, float orbitSpeed);
+    void CreateShapeFromModel(QString filename, QVector3D translateVector, QString texture, float scale, float rotationSpeed, QVector3D orbitVector, float orbitSpeed);
 };
 
 #endif // MAINVIEW_H

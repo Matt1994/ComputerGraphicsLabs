@@ -18,7 +18,7 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
 
 }
 
-void MainView::loadModel(QString filename, QVector3D position, QString texture, float scale, float rotationSpeed, QVector3D orbitVector, float orbitSpeed){
+void MainView::CreateShapeFromModel(QString filename, QVector3D position, QString texture, float scale, float rotationSpeed, QVector3D orbitVector, float orbitSpeed){
     Model objectModel(filename);
     Shape object;
 
@@ -45,7 +45,6 @@ void MainView::loadModel(QString filename, QVector3D position, QString texture, 
     }
 
     object.modelMatrix.translate(object.position);
-    object.translateVector = object.position;
 
     shapes.append(object);
 }
@@ -101,22 +100,19 @@ void MainView::initializeGL() {
 
     // Enable depth buffer
     glEnable(GL_DEPTH_TEST);
-
     // Enable backface culling
     glEnable(GL_CULL_FACE);
-
     // Default is GL_LESS
     glDepthFunc(GL_LEQUAL);
-
     // Set the color of the screen to be black on clear (new frame)
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     resizeGL(width(), height());
 
-    loadModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/sunmap.jpg", 1, 0.05, QVector3D(0,0,0), 0);
-    loadModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/mars1k.png", 0.3, 0.4, QVector3D(4,0,0), 0.6);
-    loadModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/earthmap1k.png", 0.4, 0.4, QVector3D(8,0,0), 0.3);
-    loadModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/jupiter2_1k.png", 0.6, 0.4, QVector3D(15,0,0), 0.1);
+    CreateShapeFromModel(":/models/cat.obj", QVector3D(0, 0, -10), ":/textures/sunmap.jpg", 3, 0.05, QVector3D(0,0,0), 0);
+    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/mars1k.png", 0.3, 0.4, QVector3D(4,0,0), 0.6);
+    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/earthmap1k.png", 0.4, 0.4, QVector3D(8,0,0), 0.3);
+    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/jupiter2_1k.png", 0.6, 0.4, QVector3D(15,0,0), 0.1);
 
     createShaderPrograms();
 
@@ -136,6 +132,8 @@ void MainView::initializeGL() {
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(6*sizeof(float)));
         loadTexture(shapes.data()[i], shapes.data()[i].texture);
     }
+
+    updateViewMatrix();
 
     timer.start(1000.0 / 60.0);
 }
@@ -167,6 +165,8 @@ void MainView::addShader(GLuint shader, QString vertexshader, QString fragshader
 
     modelTransformLocation[shader]       = shaderPrograms[shader].uniformLocation("modelTransform");
     perspectiveTransformLocation[shader] = shaderPrograms[shader].uniformLocation("perspectiveTransform");
+    viewTransformLocation[shader]        = shaderPrograms[shader].uniformLocation("viewTransform");
+
     normalTransformLocation[shader]      = shaderPrograms[shader].uniformLocation("normalTransform");
     if(shader != MainView::NORMAL){
         lightPositionLocation[shader]        = shaderPrograms[shader].uniformLocation("lightPosition");
@@ -197,6 +197,7 @@ void MainView::paintGL() {
 
     // Fill global uniforms
     glUniformMatrix4fv(perspectiveTransformLocation[currentShadingMode], 1, GL_FALSE, perspectiveMatrix.data());
+    glUniformMatrix4fv(viewTransformLocation[currentShadingMode], 1, GL_FALSE, viewMatrix.data());
     if(currentShadingMode != MainView::NORMAL){
         glUniform3fv(lightPositionLocation[currentShadingMode], 1, lightPosition);
         glUniform3fv(lightColorLocation[currentShadingMode], 1, lightColor);
@@ -229,33 +230,37 @@ void MainView::resizeGL(int newWidth, int newHeight)
 {
     // Set new aspect ratio of the viewport
     perspectiveMatrix.setToIdentity();
-    perspectiveMatrix.perspective(60.0,(float)newWidth/(float)newHeight,1,100);
+    perspectiveMatrix.perspective(60.0,(float)newWidth/(float)newHeight,1,300);
 }
 
 // --- Public interface
 
 void MainView::setRotation(int rotateX, int rotateY, int rotateZ)
 {
-    qDebug() << "Rotation changed to (" << rotateX << "," << rotateY << "," << rotateZ << ")";
-
-    /*for(int i=0; i<shapes.length(); i++) {
-        shapes.data()[i].rotateMatrix(rotateX, rotateY, rotateZ, currentScale/100);
-    }*/
-
-    update();
+    currentRotateX = rotateX;
+    currentRotateY = rotateY;
+    currentRotateZ = rotateZ;
+    updateViewMatrix();
 }
 
 void MainView::setZoom(int zoom)
 {
-    for(int i=0; i<shapes.length(); i++) {
-        shapes.data()[i].scale = float(zoom)/100;
-    }
-    currentScale = zoom;
+    if(zoom >= 0 && zoom <= 100) currentZoom = zoom;
+    updateViewMatrix();
+}
+
+void MainView::updateViewMatrix()
+{
+    viewMatrix.setToIdentity();
+    viewMatrix.translate(QVector3D(0,0,currentZoom-100-10));
+    viewMatrix.rotate(currentRotateX,1,0,0);
+    viewMatrix.rotate(currentRotateY,0,1,0);
+    viewMatrix.rotate(currentRotateZ,0,0,1);
+    viewMatrix.translate(QVector3D(0,0,10));
 }
 
 void MainView::setShadingMode(ShadingMode shading)
 {
-    qDebug() << "Changed shading to" << shading;
     currentShadingMode = shading;
     update();
 }

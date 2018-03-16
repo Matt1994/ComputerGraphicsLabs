@@ -20,6 +20,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_ResetRotationButton_clicked(bool checked)
 {
+    Q_UNUSED(checked);
     ui->RotationDialX->setValue(0);
     ui->RotationDialY->setValue(0);
     ui->RotationDialZ->setValue(0);
@@ -49,8 +50,9 @@ void MainWindow::on_RotationDialZ_sliderMoved(int value)
 
 void MainWindow::on_ResetZoomButton_clicked(bool checked)
 {
-    ui->ZoomSlider->setValue(100);
-    ui->mainView->setZoom(100);
+    Q_UNUSED(checked);
+    ui->ZoomSlider->setValue(50);
+    ui->mainView->setZoom(50);
 }
 
 void MainWindow::on_ZoomSlider_sliderMoved(int value)

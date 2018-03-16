@@ -14,13 +14,13 @@ uniform int phongExponent;
 uniform sampler2D texSampler;
 uniform vec3 lightColor;
 uniform vec3 lightPosition;
+uniform vec3 eyePos;
 
 // Output
 out vec4 fColor;
 
 void main()
 {
-    vec3 eyePos = vec3(0.0,0.0,0.0);
     vec4 textureColor = texture2D(texSampler, texture_out);
 
     vec3 N = normalize(vertNormal);
@@ -30,7 +30,7 @@ void main()
 
     vec3 amb     = textureColor.xyz * materialIntensity.x * lightColor;
     vec3 diffuse = max(0.0, dot(L,N)) * textureColor.xyz * materialIntensity.y * lightColor;
-    vec3 spec    = pow(max(0.0, dot(R,V)),phongExponent) * materialIntensity.z * lightColor;
+    vec3 spec    = max(0.0, pow(dot(R,V),phongExponent)) * materialIntensity.z * lightColor;
 
     fColor       = vec4((amb + diffuse + spec),1);
 }

@@ -6,16 +6,13 @@
 void MainView::keyPressEvent(QKeyEvent *ev)
 {
     switch(ev->key()) {
-    case 61:
-        if(currentScale + 1 < 200) setZoom(currentScale + 1);
-        break;
-    case 45:
-        if(currentScale - 1 > 0) setZoom(currentScale - 1);
-        break;
+    case 'A': qDebug() << "A pressed"; break;
     default:
         qDebug() << ev->key() << "pressed";
         break;
     }
+
+    update();
 }
 
 // Triggered by releasing a key
@@ -70,5 +67,10 @@ void MainView::mouseReleaseEvent(QMouseEvent *ev)
 void MainView::wheelEvent(QWheelEvent *ev)
 {
     // Implement something
-    qDebug() << "Mouse wheel:" << ev->delta();
+    //qDebug() << "Mouse wheel:" << ev->delta();
+    if(ev->delta() > 0){
+        setZoom(currentZoom+1);
+    } else {
+        setZoom(currentZoom-1);
+    }
 }
