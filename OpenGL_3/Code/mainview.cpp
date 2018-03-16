@@ -109,10 +109,12 @@ void MainView::initializeGL() {
 
     resizeGL(width(), height());
 
-    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/sunmap.jpg", 3, 0.05, QVector3D(0,0,0), 0);
-    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/mars1k.png", 0.3, 0.4, QVector3D(4,0,0), 0.6);
-    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/earthmap1k.png", 0.4, 0.4, QVector3D(8,0,0), 0.3);
-    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/jupiter2_1k.png", 0.6, 0.4, QVector3D(15,0,0), 0.1);
+    centerPoint = QVector3D(0,0,-10);
+
+    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/sunmap.jpg", 3, 0.05, QVector3D(0,0,0), 0);
+    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/mars1k.png", 0.3, 0.4, QVector3D(4,0,0), 0.6);
+    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/earthmap1k.png", 0.4, 0.4, QVector3D(8,0,0), 0.3);
+    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/jupiter2_1k.png", 0.6, 0.4, QVector3D(15,0,0), 0.1);
 
     createShaderPrograms();
 
@@ -226,7 +228,7 @@ void MainView::paintGL() {
  * @param newWidth
  * @param newHeight
  */
-void MainView::resizeGL(int newWidth, int newHeight) 
+void MainView::resizeGL(int newWidth, int newHeight)
 {
     // Set new aspect ratio of the viewport
     perspectiveMatrix.setToIdentity();
@@ -252,11 +254,11 @@ void MainView::setZoom(int zoom)
 void MainView::updateViewMatrix()
 {
     viewMatrix.setToIdentity();
-    viewMatrix.translate(QVector3D(0,0,currentZoom-100-10));
+    viewMatrix.translate(QVector3D(centerPoint.x(),centerPoint.y(),currentZoom-100+centerPoint.z()));
     viewMatrix.rotate(currentRotateX,1,0,0);
     viewMatrix.rotate(currentRotateY,0,1,0);
     viewMatrix.rotate(currentRotateZ,0,0,1);
-    viewMatrix.translate(QVector3D(0,0,10));
+    viewMatrix.translate(-centerPoint);
 }
 
 void MainView::setShadingMode(ShadingMode shading)
