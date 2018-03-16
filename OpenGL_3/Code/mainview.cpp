@@ -109,7 +109,7 @@ void MainView::initializeGL() {
 
     resizeGL(width(), height());
 
-    CreateShapeFromModel(":/models/cat.obj", QVector3D(0, 0, -10), ":/textures/sunmap.jpg", 3, 0.05, QVector3D(0,0,0), 0);
+    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/sunmap.jpg", 3, 0.05, QVector3D(0,0,0), 0);
     CreateShapeFromModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/mars1k.png", 0.3, 0.4, QVector3D(4,0,0), 0.6);
     CreateShapeFromModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/earthmap1k.png", 0.4, 0.4, QVector3D(8,0,0), 0.3);
     CreateShapeFromModel(":/models/sphere.obj", QVector3D(0, 0, -10), ":/textures/jupiter2_1k.png", 0.6, 0.4, QVector3D(15,0,0), 0.1);
