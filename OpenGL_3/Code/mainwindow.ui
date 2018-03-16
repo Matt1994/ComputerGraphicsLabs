@@ -164,10 +164,13 @@
              <number>1</number>
             </property>
             <property name="maximum">
-             <number>200</number>
+             <number>100</number>
             </property>
             <property name="value">
-             <number>100</number>
+             <number>50</number>
+            </property>
+            <property name="sliderPosition">
+             <number>50</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>

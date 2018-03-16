@@ -11,6 +11,7 @@ layout (location = 2) in vec2 vertTexture_in;
 // Uniforms
 uniform mat4 modelTransform;
 uniform mat4 perspectiveTransform;
+uniform mat4 viewTransform;
 uniform mat3 normalTransform;
 
 // Outputs
@@ -24,7 +25,7 @@ void main()
     vec4 position = (modelTransform * vec4(vertCoordinates_in,1));
 
     // gl_Position is the output (a vec4) of the vertex shader
-    gl_Position = perspectiveTransform * position;
+    gl_Position = perspectiveTransform * viewTransform * position;
 
     vertNormal = normalTransform * vertNormal_in;
     position_out = position.xyz;
