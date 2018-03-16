@@ -32,6 +32,7 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     GLuint currentShadingMode = 0;
 
     QVector<Shape> shapes;
+    QVector3D centerPoint;
 
     QMatrix4x4 perspectiveMatrix;
     QMatrix4x4 viewMatrix;
