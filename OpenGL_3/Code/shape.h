@@ -12,7 +12,7 @@ struct Shape {
     QVector3D position, translateVector, orbitVector;
     QVector<quint8> textureImage;
     QString texture;
-    float rotation = 0, orbitAngle = 0, rotationSpeed, orbitSpeed;
+    float rotation = 0, orbitAngle = 0, rotationSpeed, orbitSpeed, baseSpeed = 1;
     Vertex *vertices;
     int numVertices;
 
@@ -23,12 +23,12 @@ struct Shape {
     void updateModelMatrix(){
         modelMatrix.setToIdentity();
 
-        rotation += rotationSpeed;
-        orbitMatrix.rotate(orbitSpeed,0,1,0);
+        rotation += rotationSpeed * baseSpeed;
+        orbitMatrix.rotate(orbitSpeed * baseSpeed, 0, 1, 0);
         translateVector = (orbitMatrix*orbitVector) + position;
 
         modelMatrix.translate(translateVector);
-        modelMatrix.rotate(rotation,0,1,0);
+        modelMatrix.rotate(rotation * baseSpeed, 0, 1, 0);
     }
 
 

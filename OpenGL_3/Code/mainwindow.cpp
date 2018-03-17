@@ -60,6 +60,11 @@ void MainWindow::on_ZoomSlider_sliderMoved(int value)
     ui->mainView->setZoom(value);
 }
 
+void MainWindow::on_rotationSpeed_valueChanged(int rotation)
+{
+        ui->mainView->setRotationSpeed(rotation);
+}
+
 void MainWindow::on_PhongButton_toggled(bool checked)
 {
     if (checked)

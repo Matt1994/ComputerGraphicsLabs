@@ -273,6 +273,15 @@ void MainView::updateViewMatrix()
     viewMatrix.translate(-centerPoint);
 }
 
+void MainView::setRotationSpeed(int rotation)
+{
+    qDebug() << "New rotation is" << rotation << endl;
+    for(int i=0; i<shapes.length(); i++) {
+        shapes[i].baseSpeed = rotation;
+    }
+    updateViewMatrix();
+}
+
 void MainView::setShadingMode(ShadingMode shading)
 {
     currentShadingMode = shading;
