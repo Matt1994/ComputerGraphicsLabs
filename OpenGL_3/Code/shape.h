@@ -39,9 +39,9 @@ struct Shape {
 
         rotation += rotationSpeed * baseSpeed;
         orbitMatrix.rotate(orbitSpeed * baseSpeed, 0, 1, 0);
-        translateVector = (orbitMatrix*orbitVector) + position;
+        newPosition = (orbitMatrix*QVector3D(0,0,orbitRadius)) + oldPosition;
 
-        modelMatrix.translate(translateVector);
+        modelMatrix.translate(newPosition);
         modelMatrix.rotate(rotation, 0, 1, 0);
     }
 
