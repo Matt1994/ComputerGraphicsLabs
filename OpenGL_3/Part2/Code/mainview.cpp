@@ -14,9 +14,7 @@
 MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
     qDebug() << "MainView constructor";
 
-    connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
-
-}
+    connect(&timer, SIGNAL(timeout()), this, SLOT(update()));}
 
 /**
  * @brief MainView::~MainView
@@ -34,7 +32,6 @@ MainView::~MainView() {
     for(int i = 0;i < shapes.length();i++) {
         glDeleteBuffers(1, &shapes.data()[i].vbo);
         glDeleteBuffers(1, &shapes.data()[i].vao);
-        glDeleteTextures(1, &shapes.data()[i].texturePointer);
     }
 }
 
@@ -66,8 +63,6 @@ void MainView::initializeGL() {
 
     // Enable depth buffer
     glEnable(GL_DEPTH_TEST);
-    // Enable backface culling
-    glEnable(GL_CULL_FACE);
     // Default is GL_LESS
     glDepthFunc(GL_LEQUAL);
     // Set the color of the screen to be black on clear (new frame)
@@ -77,15 +72,7 @@ void MainView::initializeGL() {
 
     centerPoint = QVector3D(0,0,-10);
 
-    createShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/sunmap.jpg", 3, 0.05, 0, 0);
-    createShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/mars1k.png", 0.3, 0.4, 4, 0.6);
-    createShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/earthmap1k.png", 0.4, 0.4, 8, 0.3);
-    createShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/jupiter2_1k.png", 0.7, 0.4, 15, 0.1);
-    createShapeFromModel(":/models/cat.obj", QVector3D(0,0,-10), ":/textures/cat_diff.png", 0.2, 0.4, 1, 1.5);
-    createShapeFromModel(":/models/cat.obj", QVector3D(0,0,-10), ":/textures/rug_logo.png", 0.3, 0.6, 1, 1);
-
-    shapes.data()[2].setChild(4);
-    shapes.data()[3].setChild(5);
+    createShapeFromModel(":/models/grid.obj", QVector3D(0,0,-10), 2);
 
     createShaderPrograms();
 
@@ -120,13 +107,11 @@ void MainView::paintGL() {
     // Clear the screen before rendering
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    time += 0.0167;
+
     // Update model matrix of each shape
     for(int i=0; i<shapes.length(); i++) {
        shapes.data()[i].updateModelMatrix();
-       if(shapes.data()[i].hasChild){
-           int c = shapes.data()[i].child;
-           shapes.data()[c].setPosition(shapes.data()[i].newPosition);
-       }
     }
 
     shaderPrograms[currentShadingMode].bind();
@@ -134,20 +119,22 @@ void MainView::paintGL() {
     // Fill global uniforms
     glUniformMatrix4fv(perspectiveTransformLocation[currentShadingMode], 1, GL_FALSE, perspectiveMatrix.data());
     glUniformMatrix4fv(viewTransformLocation[currentShadingMode], 1, GL_FALSE, viewMatrix.data());
-    if(currentShadingMode != MainView::NORMAL){
+    if(currentShadingMode != MainView::WAVE){
         glUniform3fv(lightPositionLocation[currentShadingMode], 1, lightPosition);
         glUniform3fv(lightColorLocation[currentShadingMode], 1, lightColor);
         glUniform3fv(materialIntensityLocation[currentShadingMode], 1, materialIntensity);
         glUniform1i(phongExponentLocation[currentShadingMode], phongExponent);
     }
 
+    glUniform1fv(amplitudeLocation[currentShadingMode], 5, amplitude);
+    glUniform1fv(frequencyLocation[currentShadingMode], 5, frequency);
+    glUniform1fv(phaseLocation[currentShadingMode], 5, phase);
+    glUniform1f(timeLocation[currentShadingMode], time);
+
     // For each shape, bind buffers and texture,
     for(int i=0; i<shapes.length(); i++) {
         glBindVertexArray(shapes.data()[i].vao);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, shapes.data()[i].texturePointer);
         glUniformMatrix4fv(modelTransformLocation[currentShadingMode], 1, GL_FALSE, shapes.data()[i].modelMatrix.data());
-        glUniformMatrix3fv(normalTransformLocation[currentShadingMode], 1, GL_FALSE, shapes.data()[i].modelMatrix.normalMatrix().data());
         glDrawArrays(GL_TRIANGLES, 0, shapes.data()[i].numVertices);
     }
 
@@ -220,14 +207,6 @@ void MainView::setShadingMode(ShadingMode shading)
 
 // Update uniforms
 
-void MainView::setRotationSpeed(int rotation)
-{
-    qDebug() << "New rotation is" << rotation << endl;
-    for(int i=0; i<shapes.length(); i++) {
-        shapes[i].baseSpeed = rotation;
-    }
-}
-
 void MainView::setMaterialIntensity(float intensity1, float intensity2, float intensity3)
 {
     materialIntensity[0] = intensity1;
@@ -274,16 +253,13 @@ void MainView::onMessageLogged( QOpenGLDebugMessage Message ) {
  * @param orbitSpeed
  */
 
-void MainView::createShapeFromModel(QString modelFileName, QVector3D position, QString textureFile, float scale, float rotationSpeed, float orbitRadius, float orbitSpeed){
+void MainView::createShapeFromModel(QString modelFileName, QVector3D position, float scale){
     Model objectModel(modelFileName);
     Shape object;
 
     // Set up model
-    object.numVertices      = objectModel.getVertices().count();
-    object.oldPosition      = position;
-    object.rotationSpeed    = rotationSpeed;
-    object.orbitRadius      = orbitRadius;
-    object.orbitSpeed       = orbitSpeed;
+    object.numVertices = objectModel.getVertices().count();
+    object.position    = position;
 
     object.modelMatrix.translate(position);
 
@@ -298,7 +274,6 @@ void MainView::createShapeFromModel(QString modelFileName, QVector3D position, Q
 
     initializeVBO(&object);
     initializeVAO(&object);
-    loadTexture(&object, textureFile);
 
     shapes.append(object);
 }
@@ -320,23 +295,10 @@ void MainView::initializeVAO(Shape* shape){
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(6*sizeof(float)));
 }
 
-void MainView::loadTexture(Shape* shape, QString texture)
-{
-    QImage image(texture);
-    shape->textureImage = imageToBytes(image);
-    glGenTextures(1, &(shape->texturePointer));
-    glBindTexture(GL_TEXTURE_2D, shape->texturePointer);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, shape->textureImage.data());
-    glGenerateMipmap(GL_TEXTURE_2D);
-}
-
 void MainView::createShaderPrograms()
 {
-    addShader(MainView::NORMAL, ":/shaders/vertshader_normal.glsl", ":/shaders/fragshader_normal.glsl");
     addShader(MainView::PHONG, ":/shaders/vertshader_phong.glsl", ":/shaders/fragshader_phong.glsl");
-    addShader(MainView::GOURAUD, ":/shaders/vertshader_gouraud.glsl", ":/shaders/fragshader_gouraud.glsl");
+    addShader(MainView::WAVE, ":/shaders/vertshader_wave.glsl", ":/shaders/fragshader_wave.glsl");
 }
 
 void MainView::addShader(GLuint shader, QString vertexshader, QString fragshader)
@@ -350,12 +312,15 @@ void MainView::addShader(GLuint shader, QString vertexshader, QString fragshader
     perspectiveTransformLocation[shader] = shaderPrograms[shader].uniformLocation("perspectiveTransform");
     viewTransformLocation[shader]        = shaderPrograms[shader].uniformLocation("viewTransform");
 
-    normalTransformLocation[shader]      = shaderPrograms[shader].uniformLocation("normalTransform");
-    if(shader != MainView::NORMAL){
+    amplitudeLocation[shader]       = shaderPrograms[shader].uniformLocation("amplitude");
+    frequencyLocation[shader]       = shaderPrograms[shader].uniformLocation("frequency");
+    phaseLocation[shader]           = shaderPrograms[shader].uniformLocation("phase");
+    timeLocation[shader]            = shaderPrograms[shader].uniformLocation("time");
+
+    if(shader != MainView::WAVE){
         lightPositionLocation[shader]        = shaderPrograms[shader].uniformLocation("lightPosition");
         lightColorLocation[shader]      	 = shaderPrograms[shader].uniformLocation("lightColor");
         materialIntensityLocation[shader]    = shaderPrograms[shader].uniformLocation("materialIntensity");
         phongExponentLocation[shader]        = shaderPrograms[shader].uniformLocation("phongExponent");
-        texSamplerLocation[shader]           = shaderPrograms[shader].uniformLocation("texSampler");
     }
 }

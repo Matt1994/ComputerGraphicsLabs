@@ -26,11 +26,8 @@ private slots:
     void on_ResetZoomButton_clicked(bool checked);
     void on_ZoomSlider_sliderMoved(int value);
 
-    void on_rotationSpeed_valueChanged(int rotation);
-
     void on_PhongButton_toggled(bool checked);
-    void on_NormalButton_toggled(bool checked);
-    void on_GouraudButton_toggled(bool checked);
+    void on_WaveButton_toggled(bool checked);
 
     void on_materialIntensity1_valueChanged(double d);
     void on_materialIntensity2_valueChanged(double d);

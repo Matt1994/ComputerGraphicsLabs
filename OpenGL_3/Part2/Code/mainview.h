@@ -23,7 +23,7 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
 
     QTimer timer; // timer used for animation
 
-    QOpenGLShaderProgram shaderPrograms[3];
+    QOpenGLShaderProgram shaderPrograms[4];
 
     GLfloat lightPosition[3] = {0.0, 0.0, 10.0},
             lightColor[3] = {1.0, 1.0, 1.0},
@@ -40,25 +40,33 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     QMatrix4x4 perspectiveMatrix,
                viewMatrix;
 
-    GLint modelTransformLocation[3],
-          perspectiveTransformLocation[3],
-          normalTransformLocation[3],
-          lightPositionLocation[3],
-          lightColorLocation[3],
-          materialIntensityLocation[3],
-          phongExponentLocation[3],
-          texSamplerLocation[3],
-          viewTransformLocation[3];
+    GLint modelTransformLocation[2],
+          perspectiveTransformLocation[2],
+          lightPositionLocation[2],
+          lightColorLocation[2],
+          amplitudeLocation[2],
+          frequencyLocation[2],
+          phaseLocation[2],
+          timeLocation[2],
+          materialIntensityLocation[2],
+          phongExponentLocation[2],
+          viewTransformLocation[2];
 
-    float currentRotateX=0,
+    float currentRotateX=300,
           currentRotateY=0,
-          currentRotateZ=0,
+          currentRotateZ=45,
           currentZoom=90;
+
+    float amplitude[5] = {0.02,0.08,0.03,0.001,0.1};
+    float frequency[5] = {7,5,0.9,3,1};
+    float phase[5] = {0,0,0.2,1,1.5};
+
+    float time = 0;
 
 public:
     enum ShadingMode : GLuint
     {
-        PHONG = 0, NORMAL, GOURAUD
+        PHONG = 0, WAVE
     };
 
     MainView(QWidget *parent = 0);
@@ -68,7 +76,6 @@ public:
     void setRotation(int rotateX, int rotateY, int rotateZ);
     void setZoom(int zoom);
     void updateViewMatrix();
-    void setRotationSpeed(int rotation);
     void setShadingMode(ShadingMode shading);
     void setMaterialIntensity(float intensity1, float intensity2, float intensity3);
     void setLightPosition(double x, double y, double z);
@@ -100,8 +107,7 @@ private:
     void initializeVAO(Shape* shape);
     void createShaderPrograms();
     void addShader(GLuint shader, QString vertexshader, QString fragshader);
-    void loadTexture(Shape* shape, QString texture);
-    void createShapeFromModel(QString filename, QVector3D translateVector, QString texture, float scale, float rotationSpeed, float orbitRadius, float orbitSpeed);
+    void createShapeFromModel(QString filename, QVector3D translateVector, float scale);
 };
 
 #endif // MAINVIEW_H

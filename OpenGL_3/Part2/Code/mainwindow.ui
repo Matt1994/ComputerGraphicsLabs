@@ -197,15 +197,7 @@
         </widget>
        </item>
        <item row="2" column="0">
-        <layout class="QHBoxLayout" name="RotationSpeed">
-         <item>
-          <widget class="QLabel" name="RotationSpeed_2">
-           <property name="text">
-            <string>Rotation Speed</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <layout class="QHBoxLayout" name="RotationSpeed"/>
        </item>
        <item row="3" column="0">
         <widget class="QGroupBox" name="shadingBox">
@@ -242,16 +234,12 @@
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="NormalButton">
+           <widget class="QRadioButton" name="WaveButton">
             <property name="text">
-             <string>Nor&amp;mal</string>
+             <string>Wave</string>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="GouraudButton">
-            <property name="text">
-             <string>&amp;Gouraud</string>
+            <property name="checked">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -416,13 +404,6 @@
           </widget>
          </item>
         </layout>
-       </item>
-       <item row="2" column="1">
-        <widget class="QSpinBox" name="rotationSpeed">
-         <property name="value">
-          <number>1</number>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>

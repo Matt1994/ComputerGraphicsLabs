@@ -60,11 +60,6 @@ void MainWindow::on_ZoomSlider_sliderMoved(int value)
     ui->mainView->setZoom(value);
 }
 
-void MainWindow::on_rotationSpeed_valueChanged(int rotation)
-{
-        ui->mainView->setRotationSpeed(rotation);
-}
-
 void MainWindow::on_PhongButton_toggled(bool checked)
 {
     if (checked)
@@ -74,20 +69,11 @@ void MainWindow::on_PhongButton_toggled(bool checked)
     }
 }
 
-void MainWindow::on_NormalButton_toggled(bool checked)
+void MainWindow::on_WaveButton_toggled(bool checked)
 {
     if (checked)
     {
-        ui->mainView->setShadingMode(MainView::NORMAL);
-        ui->mainView->update();
-    }
-}
-
-void MainWindow::on_GouraudButton_toggled(bool checked)
-{
-    if (checked)
-    {
-        ui->mainView->setShadingMode(MainView::GOURAUD);
+        ui->mainView->setShadingMode(MainView::WAVE);
         ui->mainView->update();
     }
 }
