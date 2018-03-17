@@ -11,7 +11,6 @@ void MainView::keyPressEvent(QKeyEvent *ev)
     case 16777236: setRotation(currentRotateX, currentRotateY-1, currentRotateZ); break;
     case 16777237: setRotation(currentRotateX-1, currentRotateY, currentRotateZ); break;
     default:
-        qDebug() << ev->key() << "pressed";
         break;
     }
 
@@ -24,7 +23,6 @@ void MainView::keyReleaseEvent(QKeyEvent *ev)
     switch(ev->key()) {
     case 'A': qDebug() << "A released"; break;
     default:
-        qDebug() << ev->key() << "released";
         break;
     }
 
@@ -69,11 +67,9 @@ void MainView::mouseReleaseEvent(QMouseEvent *ev)
 // Triggered when clicking scrolling with the scroll wheel on the mouse
 void MainView::wheelEvent(QWheelEvent *ev)
 {
-    // Implement something
-    //qDebug() << "Mouse wheel:" << ev->delta();
     if(ev->delta() > 0){
         setZoom(currentZoom+1);
-    } else {
+    } else{
         setZoom(currentZoom-1);
     }
 }
