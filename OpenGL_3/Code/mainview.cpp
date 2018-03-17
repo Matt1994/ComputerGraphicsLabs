@@ -18,37 +18,6 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
 
 }
 
-void MainView::CreateShapeFromModel(QString filename, QVector3D position, QString texture, float scale, float rotationSpeed, QVector3D orbitVector, float orbitSpeed){
-    Model objectModel(filename);
-    Shape object;
-
-    // Set up model
-    object.numVertices      = objectModel.getVertices().count();
-    object.vertices         = (Vertex *)malloc(sizeof(Vertex)*object.numVertices);
-    object.position         = position;
-    object.texture          = texture;
-    object.rotationSpeed    = rotationSpeed;
-    object.orbitVector      = orbitVector;
-    object.orbitSpeed       = orbitSpeed;
-
-    // Retrieve model vertex data from model and insert into model struct
-    // Data has been unitized when the model was created
-    for(int i = 0;i<object.numVertices;i++){
-        object.vertices[i].x  = objectModel.getVertices().at(i).x()*scale;
-        object.vertices[i].y  = objectModel.getVertices().at(i).y()*scale;
-        object.vertices[i].z  = objectModel.getVertices().at(i).z()*scale;
-        object.vertices[i].nx = objectModel.getNormals().at(i).x();
-        object.vertices[i].ny = objectModel.getNormals().at(i).y();
-        object.vertices[i].nz = objectModel.getNormals().at(i).z();
-        object.vertices[i].tx = objectModel.getTextureCoords().at(i).x();
-        object.vertices[i].ty = objectModel.getTextureCoords().at(i).y();
-    }
-
-    object.modelMatrix.translate(object.position);
-
-    shapes.append(object);
-}
-
 /**
  * @brief MainView::~MainView
  *
@@ -66,7 +35,6 @@ MainView::~MainView() {
         glDeleteBuffers(1, &shapes.data()[i].vbo);
         glDeleteBuffers(1, &shapes.data()[i].vao);
         glDeleteTextures(1, &shapes.data()[i].texturePointer);
-        free(shapes.data()[i].vertices);
     }
 }
 
@@ -96,8 +64,6 @@ void MainView::initializeGL() {
     glVersion = reinterpret_cast<const char*>(glGetString(GL_VERSION));
     qDebug() << ":: Using OpenGL" << qPrintable(glVersion);
 
-
-
     // Enable depth buffer
     glEnable(GL_DEPTH_TEST);
     // Enable backface culling
@@ -111,80 +77,35 @@ void MainView::initializeGL() {
 
     centerPoint = QVector3D(0,0,-10);
 
-    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/sunmap.jpg", 3, 0.05, QVector3D(0,0,0), 0);
-    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/mars1k.png", 0.3, 0.4, QVector3D(4,0,0), 0.6);
-    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/earthmap1k.png", 0.4, 0.4, QVector3D(8,0,0), 0.3);
-    CreateShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/jupiter2_1k.png", 0.7, 0.4, QVector3D(15,0,0), 0.1);
-    CreateShapeFromModel(":/models/cat.obj", QVector3D(0,0,-10), ":/textures/cat_diff.png", 0.2, 0.4, QVector3D(1,0,0), 0.6);
-    CreateShapeFromModel(":/models/cat.obj", QVector3D(0,0,-10), ":/textures/rug_logo.png", 0.2, 0.4, QVector3D(1,0,0), 0.6);
+    createShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/sunmap.jpg", 3, 0.05, 0, 0);
+    createShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/mars1k.png", 0.3, 0.4, 4, 0.6);
+    createShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/earthmap1k.png", 0.4, 0.4, 8, 0.3);
+    createShapeFromModel(":/models/sphere.obj", QVector3D(0,0,-10), ":/textures/jupiter2_1k.png", 0.7, 0.4, 15, 0.1);
+    createShapeFromModel(":/models/cat.obj", QVector3D(0,0,-10), ":/textures/cat_diff.png", 0.2, 0.4, 1, 1.5);
+    createShapeFromModel(":/models/cat.obj", QVector3D(0,0,-10), ":/textures/rug_logo.png", 0.3, 0.6, 1, 1);
 
-    shapes.data()[2].hasChild = true;
-    shapes.data()[2].child = 4;
-
-    shapes.data()[3].hasChild = true;
-    shapes.data()[3].child = 5;
+    shapes.data()[2].setChild(4);
+    shapes.data()[3].setChild(5);
 
     createShaderPrograms();
-
-    // Initialise model buffers
-    for(int i=0; i<shapes.length(); i++) {
-        glGenBuffers(1, &(shapes.data()[i].vbo));
-        glGenVertexArrays(1, &(shapes.data()[i].vao));
-        glGenTextures(1, &(shapes.data()[i].texturePointer));
-        glBindVertexArray(shapes.data()[i].vao);
-        glBindBuffer(GL_ARRAY_BUFFER, shapes.data()[i].vbo);
-        glBufferData(GL_ARRAY_BUFFER, shapes.data()[i].numVertices*sizeof(Vertex), shapes.data()[i].vertices, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-        glEnableVertexAttribArray(2);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(3*sizeof(float)));
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(6*sizeof(float)));
-        loadTexture(shapes.data()[i], shapes.data()[i].texture);
-    }
 
     updateViewMatrix();
 
     timer.start(1000.0 / 60.0);
 }
 
-void MainView::loadTexture(Shape shape, QString file)
+/**
+ * @brief MainView::resizeGL
+ *
+ * Called upon resizing of the screen
+ *
+ * @param newWidth
+ * @param newHeight
+ */
+void MainView::resizeGL(int newWidth, int newHeight)
 {
-    QImage image(file);
-    shape.textureImage = imageToBytes(image);
-    glBindTexture(GL_TEXTURE_2D, shape.texturePointer);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, shape.textureImage.data());
-    glGenerateMipmap(GL_TEXTURE_2D);
-}
-
-void MainView::createShaderPrograms()
-{
-    addShader(MainView::NORMAL, ":/shaders/vertshader_normal.glsl", ":/shaders/fragshader_normal.glsl");
-    addShader(MainView::PHONG, ":/shaders/vertshader_phong.glsl", ":/shaders/fragshader_phong.glsl");
-    addShader(MainView::GOURAUD, ":/shaders/vertshader_gouraud.glsl", ":/shaders/fragshader_gouraud.glsl");
-}
-
-void MainView::addShader(GLuint shader, QString vertexshader, QString fragshader)
-{
-    shaderPrograms[shader].addShaderFromSourceFile(QOpenGLShader::Vertex, vertexshader);
-    shaderPrograms[shader].addShaderFromSourceFile(QOpenGLShader::Fragment, fragshader);
-
-    shaderPrograms[shader].link();
-
-    modelTransformLocation[shader]       = shaderPrograms[shader].uniformLocation("modelTransform");
-    perspectiveTransformLocation[shader] = shaderPrograms[shader].uniformLocation("perspectiveTransform");
-    viewTransformLocation[shader]        = shaderPrograms[shader].uniformLocation("viewTransform");
-
-    normalTransformLocation[shader]      = shaderPrograms[shader].uniformLocation("normalTransform");
-    if(shader != MainView::NORMAL){
-        lightPositionLocation[shader]        = shaderPrograms[shader].uniformLocation("lightPosition");
-        lightColorLocation[shader]      	 = shaderPrograms[shader].uniformLocation("lightColor");
-        materialIntensityLocation[shader]    = shaderPrograms[shader].uniformLocation("materialIntensity");
-        phongExponentLocation[shader]        = shaderPrograms[shader].uniformLocation("phongExponent");
-        texSamplerLocation[shader]           = shaderPrograms[shader].uniformLocation("texSampler");
-    }
+    perspectiveMatrix.setToIdentity();
+    perspectiveMatrix.perspective(60.0,(float)newWidth/(float)newHeight,1,300);
 }
 
 // --- OpenGL drawing
@@ -199,11 +120,12 @@ void MainView::paintGL() {
     // Clear the screen before rendering
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // Update model matrix of each shape
     for(int i=0; i<shapes.length(); i++) {
        shapes.data()[i].updateModelMatrix();
        if(shapes.data()[i].hasChild){
            int c = shapes.data()[i].child;
-           shapes.data()[c].position = shapes.data()[i].translateVector;
+           shapes.data()[c].setPosition(shapes.data()[i].newPosition);
        }
     }
 
@@ -233,35 +155,44 @@ void MainView::paintGL() {
 }
 
 /**
- * @brief MainView::resizeGL
+ * @brief MainView::setRotation
  *
- * Called upon resizing of the screen
+ * Set the current rotation of the scene
  *
- * @param newWidth
- * @param newHeight
+ * @param rotateX
+ * @param rotateY
+ * @param rotateZ
  */
-void MainView::resizeGL(int newWidth, int newHeight)
-{
-    // Set new aspect ratio of the viewport
-    perspectiveMatrix.setToIdentity();
-    perspectiveMatrix.perspective(60.0,(float)newWidth/(float)newHeight,1,300);
-}
-
-// --- Public interface
 
 void MainView::setRotation(int rotateX, int rotateY, int rotateZ)
 {
+
     currentRotateX = rotateX;
     currentRotateY = rotateY;
     currentRotateZ = rotateZ;
     updateViewMatrix();
 }
 
+/**
+ * @brief MainView::setZoom
+ *
+ * Set the zoom level of the scene
+ *
+ * @param zoom
+ */
+
 void MainView::setZoom(int zoom)
 {
     if(zoom >= 0 && zoom <= 100) currentZoom = zoom;
     updateViewMatrix();
 }
+
+/**
+ * @brief MainView::updateViewMatrix
+ *
+ * Update the view matrix to current zoom and rotation
+ *
+ */
 
 void MainView::updateViewMatrix()
 {
@@ -273,29 +204,35 @@ void MainView::updateViewMatrix()
     viewMatrix.translate(-centerPoint);
 }
 
+/**
+ * @brief MainView::setShadingMode
+ *
+ * Set the current shading
+ *
+ * @param shading
+ *
+ */
+
+void MainView::setShadingMode(ShadingMode shading)
+{
+    currentShadingMode = shading;
+}
+
+// Update uniforms
+
 void MainView::setRotationSpeed(int rotation)
 {
     qDebug() << "New rotation is" << rotation << endl;
     for(int i=0; i<shapes.length(); i++) {
         shapes[i].baseSpeed = rotation;
     }
-    updateViewMatrix();
 }
-
-void MainView::setShadingMode(ShadingMode shading)
-{
-    currentShadingMode = shading;
-    update();
-}
-
-// Update uniforms
 
 void MainView::setMaterialIntensity(float intensity1, float intensity2, float intensity3)
 {
     materialIntensity[0] = intensity1;
     materialIntensity[1] = intensity2;
     materialIntensity[2] = intensity3;
-    update();
 }
 
 void MainView::setLightPosition(double x, double y, double z)
@@ -303,13 +240,11 @@ void MainView::setLightPosition(double x, double y, double z)
     lightPosition[0] = x;
     lightPosition[1] = y;
     lightPosition[2] = z;
-    update();
 }
 
 void MainView::setPhongExponent(int i)
 {
     phongExponent = i;
-    update();
 }
 
 // --- Private helpers
@@ -323,4 +258,104 @@ void MainView::setPhongExponent(int i)
  */
 void MainView::onMessageLogged( QOpenGLDebugMessage Message ) {
     qDebug() << " → Log:" << Message;
+}
+
+/**
+ * @brief MainView::createShapeFromModel
+ *
+ * Create new shape from given model + other params
+ *
+ * @param modelFileName
+ * @param position
+ * @param textureFile
+ * @param scale
+ * @param rotationSpeed
+ * @param orbitRadius
+ * @param orbitSpeed
+ */
+
+void MainView::createShapeFromModel(QString modelFileName, QVector3D position, QString textureFile, float scale, float rotationSpeed, float orbitRadius, float orbitSpeed){
+    Model objectModel(modelFileName);
+    Shape object;
+
+    // Set up model
+    object.numVertices      = objectModel.getVertices().count();
+    object.oldPosition      = position;
+    object.rotationSpeed    = rotationSpeed;
+    object.orbitRadius      = orbitRadius;
+    object.orbitSpeed       = orbitSpeed;
+
+    object.modelMatrix.translate(position);
+
+    // Retrieve vertex data from model and insert into shape
+    for(int i = 0;i<object.numVertices;i++){
+        Vertex v;
+        v.setCoords(objectModel.getVertices().at(i)*scale);
+        v.setNormalCoords(objectModel.getNormals().at(i));
+        v.setTextureCoords(objectModel.getTextureCoords().at(i));
+        object.vertices.append(v);
+    }
+
+    initializeVBO(&object);
+    initializeVAO(&object);
+    loadTexture(&object, textureFile);
+
+    shapes.append(object);
+}
+
+void MainView::initializeVBO(Shape* shape){
+   glGenBuffers(1, &(shape->vbo));
+   glBindBuffer(GL_ARRAY_BUFFER, shape->vbo);
+   glBufferData(GL_ARRAY_BUFFER, shape->numVertices*sizeof(Vertex), shape->vertices.data(), GL_STATIC_DRAW);
+}
+
+void MainView::initializeVAO(Shape* shape){
+    glGenVertexArrays(1, &(shape->vao));
+    glBindVertexArray(shape->vao);
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(3*sizeof(float)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)(6*sizeof(float)));
+}
+
+void MainView::loadTexture(Shape* shape, QString texture)
+{
+    QImage image(texture);
+    shape->textureImage = imageToBytes(image);
+    glGenTextures(1, &(shape->texturePointer));
+    glBindTexture(GL_TEXTURE_2D, shape->texturePointer);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.width(), image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, shape->textureImage.data());
+    glGenerateMipmap(GL_TEXTURE_2D);
+}
+
+void MainView::createShaderPrograms()
+{
+    addShader(MainView::NORMAL, ":/shaders/vertshader_normal.glsl", ":/shaders/fragshader_normal.glsl");
+    addShader(MainView::PHONG, ":/shaders/vertshader_phong.glsl", ":/shaders/fragshader_phong.glsl");
+    addShader(MainView::GOURAUD, ":/shaders/vertshader_gouraud.glsl", ":/shaders/fragshader_gouraud.glsl");
+}
+
+void MainView::addShader(GLuint shader, QString vertexshader, QString fragshader)
+{
+    shaderPrograms[shader].addShaderFromSourceFile(QOpenGLShader::Vertex, vertexshader);
+    shaderPrograms[shader].addShaderFromSourceFile(QOpenGLShader::Fragment, fragshader);
+
+    shaderPrograms[shader].link();
+
+    modelTransformLocation[shader]       = shaderPrograms[shader].uniformLocation("modelTransform");
+    perspectiveTransformLocation[shader] = shaderPrograms[shader].uniformLocation("perspectiveTransform");
+    viewTransformLocation[shader]        = shaderPrograms[shader].uniformLocation("viewTransform");
+
+    normalTransformLocation[shader]      = shaderPrograms[shader].uniformLocation("normalTransform");
+    if(shader != MainView::NORMAL){
+        lightPositionLocation[shader]        = shaderPrograms[shader].uniformLocation("lightPosition");
+        lightColorLocation[shader]      	 = shaderPrograms[shader].uniformLocation("lightColor");
+        materialIntensityLocation[shader]    = shaderPrograms[shader].uniformLocation("materialIntensity");
+        phongExponentLocation[shader]        = shaderPrograms[shader].uniformLocation("phongExponent");
+        texSamplerLocation[shader]           = shaderPrograms[shader].uniformLocation("texSampler");
+    }
 }
