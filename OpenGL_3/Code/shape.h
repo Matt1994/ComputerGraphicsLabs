@@ -19,12 +19,13 @@ struct Shape {
               parent;
 
     QVector<quint8> textureImage;
-
+  
     float rotation = 0,
           orbitAngle = 0,
           orbitRadius,
           rotationSpeed,
-          orbitSpeed;
+          orbitSpeed,
+          baseSpeed = 1;
 
     QVector<Vertex> vertices;
 
@@ -36,12 +37,12 @@ struct Shape {
     void updateModelMatrix(){
         modelMatrix.setToIdentity();
 
-        orbitMatrix.rotate(orbitSpeed,0,1,0);
-        newPosition = oldPosition + (orbitMatrix*QVector3D(0,0,orbitRadius));
-        rotation   += rotationSpeed;
+        rotation += rotationSpeed * baseSpeed;
+        orbitMatrix.rotate(orbitSpeed * baseSpeed, 0, 1, 0);
+        translateVector = (orbitMatrix*orbitVector) + position;
 
-        modelMatrix.translate(newPosition);
-        modelMatrix.rotate(rotation,0,1,0);
+        modelMatrix.translate(translateVector);
+        modelMatrix.rotate(rotation, 0, 1, 0);
     }
 
     void setPosition(QVector3D new_pos){

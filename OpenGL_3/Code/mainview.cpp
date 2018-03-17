@@ -220,6 +220,14 @@ void MainView::setShadingMode(ShadingMode shading)
 
 // Update uniforms
 
+void MainView::setRotationSpeed(int rotation)
+{
+    qDebug() << "New rotation is" << rotation << endl;
+    for(int i=0; i<shapes.length(); i++) {
+        shapes[i].baseSpeed = rotation;
+    }
+}
+
 void MainView::setMaterialIntensity(float intensity1, float intensity2, float intensity3)
 {
     materialIntensity[0] = intensity1;

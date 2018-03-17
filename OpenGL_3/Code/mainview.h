@@ -68,6 +68,7 @@ public:
     void setRotation(int rotateX, int rotateY, int rotateZ);
     void setZoom(int zoom);
     void updateViewMatrix();
+    void setRotationSpeed(int rotation);
     void setShadingMode(ShadingMode shading);
     void setMaterialIntensity(float intensity1, float intensity2, float intensity3);
     void setLightPosition(double x, double y, double z);
