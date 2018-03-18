@@ -29,7 +29,7 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
             lightColor[3] = {1.0, 1.0, 1.0},
             materialIntensity[3] = {0.2, 0.8, 0.5};
 
-    int phongExponent = 16, speed=0;
+    int phongExponent = 16, speed=1;
 
     GLuint currentShadingMode = 0;
 
