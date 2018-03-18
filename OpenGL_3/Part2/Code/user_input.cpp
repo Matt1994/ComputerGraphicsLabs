@@ -67,9 +67,5 @@ void MainView::mouseReleaseEvent(QMouseEvent *ev)
 // Triggered when clicking scrolling with the scroll wheel on the mouse
 void MainView::wheelEvent(QWheelEvent *ev)
 {
-    if(ev->delta() > 0){
-        setZoom(currentZoom+1);
-    } else{
-        setZoom(currentZoom-1);
-    }
+    Q_UNUSED(*ev);
 }

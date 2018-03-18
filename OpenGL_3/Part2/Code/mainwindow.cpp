@@ -48,21 +48,16 @@ void MainWindow::on_RotationDialZ_sliderMoved(int value)
                               value);
 }
 
-void MainWindow::on_ResetZoomButton_clicked(bool checked)
+void MainWindow::on_ResetTimeSpeedButton_clicked(bool checked)
 {
     Q_UNUSED(checked);
-    ui->ZoomSlider->setValue(50);
-    ui->mainView->setZoom(50);
+    ui->mainView->setTimeSpeed(1);
+    ui->TimeSpeedSlider->setValue(1);
 }
 
-void MainWindow::on_ZoomSlider_sliderMoved(int value)
+void MainWindow::on_TimeSpeedSlider_sliderMoved(int value)
 {
-    ui->mainView->setZoom(value);
-}
-
-void MainWindow::on_rotationSpeed_valueChanged(int rotation)
-{
-        ui->mainView->setRotationSpeed(rotation);
+    ui->mainView->setTimeSpeed(value);
 }
 
 void MainWindow::on_PhongButton_toggled(bool checked)
@@ -74,20 +69,11 @@ void MainWindow::on_PhongButton_toggled(bool checked)
     }
 }
 
-void MainWindow::on_NormalButton_toggled(bool checked)
+void MainWindow::on_WaveButton_toggled(bool checked)
 {
     if (checked)
     {
-        ui->mainView->setShadingMode(MainView::NORMAL);
-        ui->mainView->update();
-    }
-}
-
-void MainWindow::on_GouraudButton_toggled(bool checked)
-{
-    if (checked)
-    {
-        ui->mainView->setShadingMode(MainView::GOURAUD);
+        ui->mainView->setShadingMode(MainView::WAVE);
         ui->mainView->update();
     }
 }
