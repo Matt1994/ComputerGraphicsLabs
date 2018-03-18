@@ -7,22 +7,16 @@
 #include "vertex.h"
 
 struct Shape {
-    GLuint vbo,
-           vao;
-
+    GLuint vbo,vao;
     QMatrix4x4 modelMatrix;
-
     QVector3D position;
-
-    float rotation = 0;
-
     QVector<Vertex> vertices;
-
     int numVertices;
 
     void updateModelMatrix(){
         modelMatrix.setToIdentity();
         modelMatrix.translate(position);
+        modelMatrix.rotate(270,1,0,0);
     }
 };
 

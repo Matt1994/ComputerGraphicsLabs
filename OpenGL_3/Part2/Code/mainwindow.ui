@@ -155,22 +155,22 @@
           </size>
          </property>
          <property name="title">
-          <string>Zoom</string>
+          <string>Time Speed</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QSlider" name="ZoomSlider">
+           <widget class="QSlider" name="TimeSpeedSlider">
             <property name="minimum">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="maximum">
-             <number>100</number>
+             <number>10</number>
             </property>
             <property name="value">
-             <number>90</number>
+             <number>0</number>
             </property>
             <property name="sliderPosition">
-             <number>90</number>
+             <number>0</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -187,9 +187,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="ResetZoomButton">
+           <widget class="QPushButton" name="ResetTimeSpeedButton">
             <property name="text">
-             <string>Reset Zoom</string>
+             <string>Reset Time Speed</string>
             </property>
            </widget>
           </item>
@@ -236,10 +236,7 @@
           <item>
            <widget class="QRadioButton" name="WaveButton">
             <property name="text">
-             <string>Wave</string>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
+             <string>&amp;Wave</string>
             </property>
            </widget>
           </item>

@@ -48,16 +48,16 @@ void MainWindow::on_RotationDialZ_sliderMoved(int value)
                               value);
 }
 
-void MainWindow::on_ResetZoomButton_clicked(bool checked)
+void MainWindow::on_ResetTimeSpeedButton_clicked(bool checked)
 {
     Q_UNUSED(checked);
-    ui->ZoomSlider->setValue(50);
-    ui->mainView->setZoom(50);
+    ui->mainView->setTimeSpeed(1);
+    ui->TimeSpeedSlider->setValue(1);
 }
 
-void MainWindow::on_ZoomSlider_sliderMoved(int value)
+void MainWindow::on_TimeSpeedSlider_sliderMoved(int value)
 {
-    ui->mainView->setZoom(value);
+    ui->mainView->setTimeSpeed(value);
 }
 
 void MainWindow::on_PhongButton_toggled(bool checked)

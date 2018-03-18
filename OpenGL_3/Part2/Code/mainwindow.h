@@ -23,8 +23,8 @@ private slots:
     void on_RotationDialY_sliderMoved(int value);
     void on_RotationDialZ_sliderMoved(int value);
 
-    void on_ResetZoomButton_clicked(bool checked);
-    void on_ZoomSlider_sliderMoved(int value);
+    void on_ResetTimeSpeedButton_clicked(bool checked);
+    void on_TimeSpeedSlider_sliderMoved(int value);
 
     void on_PhongButton_toggled(bool checked);
     void on_WaveButton_toggled(bool checked);

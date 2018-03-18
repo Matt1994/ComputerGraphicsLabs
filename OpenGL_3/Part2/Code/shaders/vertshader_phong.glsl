@@ -36,16 +36,16 @@ void main()
     vec3 coords = vertCoordinates_in;
     coords.z = 0.0;
     vertNormal = vec3(0.0,0.0,1.0);
+    float m = -999;
 
     for(int i=0;i<5;i++){
+        if (amplitude[i] > m) m = amplitude[i];
         coords.z += waveHeight(i, uv_in.x);
         vertNormal.x += waveDU(i, uv_in.x);
     }
 
-    float x = mix(0.3569 ,1,coords.z);
-    float y = mix(0.5961,1,coords.z);
-    float z = mix(1,1,coords.z);
-    materialColor = vec3(x,y,z);
+    float a = smoothstep(-m,5*m,coords.z);
+    materialColor = mix(vec3(0.25,0.5,1), vec3(0.8,0.8,0.8),a);
     vertNormal = normalize(vertNormal);
 
     vec4 position = (modelTransform * vec4(coords,1));

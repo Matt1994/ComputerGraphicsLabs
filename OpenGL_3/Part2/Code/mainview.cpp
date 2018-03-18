@@ -70,9 +70,9 @@ void MainView::initializeGL() {
 
     resizeGL(width(), height());
 
-    centerPoint = QVector3D(0,0,-10);
+    centerPoint = QVector3D(0,0,-5);
 
-    createShapeFromModel(":/models/grid.obj", QVector3D(0,0,-10), 2);
+    createShapeFromModel(":/models/grid.obj", QVector3D(0,0,-5), 1);
 
     createShaderPrograms();
 
@@ -107,7 +107,7 @@ void MainView::paintGL() {
     // Clear the screen before rendering
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    time += 0.0167;
+    time += (0.0167*speed);
 
     // Update model matrix of each shape
     for(int i=0; i<shapes.length(); i++) {
@@ -161,18 +161,18 @@ void MainView::setRotation(int rotateX, int rotateY, int rotateZ)
 }
 
 /**
- * @brief MainView::setZoom
+ * @brief MainView::setTimeSpeed
  *
- * Set the zoom level of the scene
+ * Set the time speed of the scene
  *
- * @param zoom
+ * @param speed
  */
 
-void MainView::setZoom(int zoom)
+void MainView::setTimeSpeed(int value)
 {
-    if(zoom >= 0 && zoom <= 100) currentZoom = zoom;
-    updateViewMatrix();
+    speed = value;
 }
+
 
 /**
  * @brief MainView::updateViewMatrix
@@ -184,7 +184,7 @@ void MainView::setZoom(int zoom)
 void MainView::updateViewMatrix()
 {
     viewMatrix.setToIdentity();
-    viewMatrix.translate(QVector3D(centerPoint.x(),centerPoint.y(),currentZoom-100+centerPoint.z()));
+    viewMatrix.translate(centerPoint);
     viewMatrix.rotate(currentRotateX,1,0,0);
     viewMatrix.rotate(currentRotateY,0,1,0);
     viewMatrix.rotate(currentRotateZ,0,0,1);
@@ -242,15 +242,11 @@ void MainView::onMessageLogged( QOpenGLDebugMessage Message ) {
 /**
  * @brief MainView::createShapeFromModel
  *
- * Create new shape from given model + other params
+ * Create new shape from given model, position and scale
  *
  * @param modelFileName
  * @param position
- * @param textureFile
  * @param scale
- * @param rotationSpeed
- * @param orbitRadius
- * @param orbitSpeed
  */
 
 void MainView::createShapeFromModel(QString modelFileName, QVector3D position, float scale){

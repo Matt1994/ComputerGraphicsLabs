@@ -29,7 +29,7 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
             lightColor[3] = {1.0, 1.0, 1.0},
             materialIntensity[3] = {0.2, 0.8, 0.5};
 
-    int phongExponent = 16;
+    int phongExponent = 16, speed=0;
 
     GLuint currentShadingMode = 0;
 
@@ -52,14 +52,13 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
           phongExponentLocation[2],
           viewTransformLocation[2];
 
-    float currentRotateX=300,
+    float currentRotateX=0,
           currentRotateY=0,
-          currentRotateZ=45,
-          currentZoom=90;
+          currentRotateZ=0;
 
-    float amplitude[5] = {0.02,0.08,0.03,0.001,0.1};
-    float frequency[5] = {7,5,0.9,3,1};
-    float phase[5] = {0,0,0.2,1,1.5};
+    float amplitude[5] = {0.01,0.005,0.035,0.01,0.025};
+    float frequency[5] = {1,2,3,4,5};
+    float phase[5] = {0,0,0.5,1.4,0.7};
 
     float time = 0;
 
@@ -74,7 +73,7 @@ public:
 
     // Functions for widget input events
     void setRotation(int rotateX, int rotateY, int rotateZ);
-    void setZoom(int zoom);
+    void setTimeSpeed(int value);
     void updateViewMatrix();
     void setShadingMode(ShadingMode shading);
     void setMaterialIntensity(float intensity1, float intensity2, float intensity3);
